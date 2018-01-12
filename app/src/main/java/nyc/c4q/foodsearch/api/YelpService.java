@@ -1,4 +1,4 @@
-package nyc.c4q.foodsearch;
+package nyc.c4q.foodsearch.api;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

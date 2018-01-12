@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FoodSearch</string>
+    <string name="title_placeholder">Title</string>
+    <string name="label">IDK</string>
+    <string name="info_placeholder">Here is some Stuff</string>
+
 </resources>
