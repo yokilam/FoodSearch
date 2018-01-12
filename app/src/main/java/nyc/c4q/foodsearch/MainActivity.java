@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         YelpService yelpService = retrofit.create(YelpService.class);
         Call <ResponseBody> call = yelpService.getResults
-                ("Bearer " + API_KEY, "11212", -73.9415728, 40.743309);
+                ("Bearer " + API_KEY, term, -73.9415728, 40.743309);
         call.enqueue(new Callback <ResponseBody>() {
             @Override
             public void onResponse(Call <ResponseBody> call, Response <ResponseBody> response) {
