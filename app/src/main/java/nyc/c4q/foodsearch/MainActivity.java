@@ -1,6 +1,13 @@
 package nyc.c4q.foodsearch;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     SecondFragment second = new SecondFragment();
     ThirdFragment third = new ThirdFragment();
 
+
+
     private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
 
     AHBottomNavigation bottom;
@@ -46,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
         setupRetrofit();
         setBottomNav();
+
+
+
 
 
     }
@@ -66,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     if (response.isSuccessful())
-                        Log.d("onResponse: ", response.body().string());
+                        Log.d("onResponse: ", response.body().string().toString());
                     else
                         Log.d("onResponse: ", response.errorBody().string());
                 } catch (IOException e) {
@@ -141,4 +153,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
 }
