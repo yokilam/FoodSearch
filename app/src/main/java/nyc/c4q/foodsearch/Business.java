@@ -17,6 +17,11 @@ public class Business {
     private Coordinates coordinates;
     private Place location;
     private String display_phone;
+    private List<Categories> categories;
+
+    public List <Categories> getCategories() {
+        return categories;
+    }
 
     private class Coordinates {
         private double latitude;
@@ -108,5 +113,18 @@ public class Business {
 
     public String getDisplay_phone() {
         return display_phone;
+    }
+
+    private class Categories {
+        private String alias;
+        private String title;
+
+        public String getAlias() {
+            return alias;
+        }
+
+        public String getTitle() {
+            return title;
+        }
     }
 }
