@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/business_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
 
     <TextView
         android:id="@+id/name"
@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="19dp"
         android:layout_toEndOf="@+id/business_image"
-        android:textSize="25dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         tools:text="name" />
 
@@ -28,10 +28,11 @@
         android:layout_width="19dp"
         android:layout_height="19dp"
         android:layout_alignBottom="@+id/name"
-        android:layout_alignEnd="@+id/display_address"
+        android:layout_toEndOf="@+id/name"
         android:scaleType="centerCrop"
-        android:src="@drawable/star"
-        android:tint="@color/colorAccent" />
+        android:src="@drawable/star_black"
+        android:tint="@color/colorAccent"
+        android:layout_marginStart="10dp"/>
 
     <TextView
         android:id="@+id/rating"
@@ -51,11 +52,13 @@
         tools:text="display address" />
 
     <Button
-       android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/display_address" />
+        android:layout_alignTop="@+id/display_address"
+        android:background="@drawable/heart"
+         />
 
 </RelativeLayout>
 
