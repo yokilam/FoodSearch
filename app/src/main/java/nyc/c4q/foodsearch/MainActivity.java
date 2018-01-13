@@ -40,12 +40,9 @@ public class MainActivity extends AppCompatActivity {
     SecondFragment second = new SecondFragment();
     ThirdFragment third = new ThirdFragment();
 
-
-
     private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
 
     AHBottomNavigation bottom;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         setupRetrofit();
         setBottomNav();
-
-
-
-
 
     }
 

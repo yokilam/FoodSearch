@@ -20,7 +20,6 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ModelHOlder>
 
     public ModelAdapter(List<Integer> list) {
         this.list = list;
-
     }
 
     @Override
@@ -35,9 +34,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ModelHOlder>
     @Override
     public void onBindViewHolder(ModelHOlder holder, int position) {
         int model = list.get(position);
-
         holder.view.setText(model+"");
-
     }
 
     @Override
@@ -48,7 +45,6 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ModelHOlder>
 
     class ModelHOlder extends RecyclerView.ViewHolder {
         TextView view;
-
 
         public ModelHOlder(View itemView) {
             super(itemView);
