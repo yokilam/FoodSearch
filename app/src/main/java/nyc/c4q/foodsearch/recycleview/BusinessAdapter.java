@@ -37,4 +37,10 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
     public int getItemCount() {
         return businessList.size();
     }
+
+    public void swap(List<Business> list){
+        businessList.clear();
+        businessList = list;
+        notifyDataSetChanged();
+    }
 }

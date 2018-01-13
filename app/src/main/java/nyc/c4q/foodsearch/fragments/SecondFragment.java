@@ -1,12 +1,16 @@
 package nyc.c4q.foodsearch.fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +43,10 @@ public class SecondFragment extends Fragment {
     View v;
     String term = "burger";
     private RecyclerView rv;
-    List<Business> businessList = new ArrayList<>();
+    List <Business> businessList = new ArrayList <>();
     private EditText userinput;
 
+    private BusinessAdapter adapter;
     AHBottomNavigation bottom;
 
     @Override
@@ -52,25 +57,19 @@ public class SecondFragment extends Fragment {
 
         bottom = getActivity().findViewById(R.id.bottom_navigation);
         rv = v.findViewById(R.id.food_rv);
-//        MainActivity main= (MainActivity) v.getContext();
-//        main.SetupRecyclerView();
-        setupRetrofit();
         rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
+        adapter = new BusinessAdapter(businessList);
+        rv.setAdapter(adapter);
+        setupRetrofit(term);
         userinput = v.findViewById(R.id.search_edit);
         setup();
-
-
-        String input = userinput.getText().toString();
-
-        if (input.isEmpty()) {
-            input = "";
-        }
-
+        search();
         return v;
+
     }
 
-    public void setupRetrofit() {
+    public void setupRetrofit(String term) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.yelp.com/v3/")
@@ -78,16 +77,16 @@ public class SecondFragment extends Fragment {
                 .build();
 
         YelpService yelpService = retrofit.create(YelpService.class);
-        Call<BusinessModel> call = yelpService.getResults
+        Call <BusinessModel> call = yelpService.getResults
                 ("Bearer " + Constant.API_KEY, term, -73.9415728, 40.743309);
-        call.enqueue(new Callback<BusinessModel>() {
+        call.enqueue(new Callback <BusinessModel>() {
             @Override
-            public void onResponse(Call<BusinessModel> call, Response<BusinessModel> response) {
+            public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
                 try {
                     if (response.isSuccessful()) {
                         BusinessModel businessModel = response.body();
                         businessList = businessModel.getBusinesses();
-                        rv.setAdapter(new BusinessAdapter(businessList));
+                        adapter.swap(businessList);
                         Log.d("onResponse: ", "" + businessList);
                     } else
                         Log.d("onResponse: ", response.errorBody().string());
@@ -97,19 +96,26 @@ public class SecondFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<BusinessModel> call, Throwable t) {
+            public void onFailure(Call <BusinessModel> call, Throwable t) {
                 Log.d("onFailure: ", "" + t);
             }
         });
     }
-//    public String input(String userinput){
-//        String input = "";
-//        if (userinput==null){
-//            return input;
-//        } else {
-//            return input= userinput;
-//        }
-//    }
+
+    public void search() {
+        userinput.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if ((keyCode == KeyEvent.KEYCODE_ENTER) && !TextUtils.isEmpty(userinput.getText().toString())) {
+                        String searchText = userinput.getText().toString();
+                        setupRetrofit(searchText);
+                    }
+                }
+                return false;
+            }
+        });
+    }
 
     public void setup() {
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
