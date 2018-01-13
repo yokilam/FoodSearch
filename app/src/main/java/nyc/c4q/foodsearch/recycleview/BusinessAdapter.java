@@ -1,4 +1,4 @@
-package nyc.c4q.foodsearch;
+package nyc.c4q.foodsearch.recycleview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import nyc.c4q.foodsearch.mode.view.Business;
+import nyc.c4q.foodsearch.R;
 
 /**
  * Created by yokilam on 1/13/18.

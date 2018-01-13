@@ -1,4 +1,4 @@
-package nyc.c4q.foodsearch;
+package nyc.c4q.foodsearch.mode.view;
 
 import java.util.List;
 

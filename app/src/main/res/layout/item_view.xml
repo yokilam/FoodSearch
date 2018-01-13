@@ -14,10 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:adjustViewBounds="true"
-            android:background="@mipmap/ic_launcher_round" />
+            />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/store_title"
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
         <TextView
-            android:id="@+id/newsTitle"
+            android:id="@+id/phone_number"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,11 +37,11 @@
             android:textColor="?android:textColorSecondary" />
 
         <TextView
-            android:id="@+id/subTitle"
+            android:id="@+id/address"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/newsTitle"
+            android:layout_below="@id/phone_number"
             android:padding="@dimen/card_margin"
             android:text="@string/info_placeholder" />
 
