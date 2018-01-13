@@ -1,9 +1,7 @@
 package nyc.c4q.foodsearch.fragments;
 
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,9 +24,10 @@ import nyc.c4q.foodsearch.recycleview.ModelAdapter;
  * A simple {@link Fragment} subclass.
  */
 public class FirstFragment extends Fragment {
+
+    View v;
     RecyclerView recyclerView;
     ModelAdapter adapter;
-    View v;
     AHBottomNavigation bottom;
     List<Integer> models = new ArrayList<>();
 
@@ -39,7 +38,7 @@ public class FirstFragment extends Fragment {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -35,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
     SecondFragment second = new SecondFragment();
     ThirdFragment third = new ThirdFragment();
 
+   
+
     private ArrayList <AHBottomNavigationItem> items = new ArrayList <>();
+
 
     AHBottomNavigation bottom;
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         bottom = findViewById(R.id.bottom_navigation);
 
         setBottomNav();
+
 
     }
 

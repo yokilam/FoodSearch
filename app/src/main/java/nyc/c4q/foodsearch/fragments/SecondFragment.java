@@ -41,13 +41,14 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_second, container, false);
+
 
         rv= v.findViewById(R.id.food_rv);
 //        MainActivity main= (MainActivity) v.getContext();
 //        main.SetupRecyclerView();
         setupRetrofit();
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
+
         return v;
     }
 
