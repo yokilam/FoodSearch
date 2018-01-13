@@ -9,12 +9,13 @@ import android.widget.TextView;
  */
 
 public class BusinessViewHolder extends RecyclerView.ViewHolder {
-    private TextView name, address;
+    private TextView name, address,rating;
 
     public BusinessViewHolder(View itemView) {
         super(itemView);
         name= itemView.findViewById(R.id.name);
         address= itemView.findViewById(R.id.display_address);
+        rating= itemView.findViewById(R.id.rating);
     }
 
     public void onBind(Business business) {
@@ -22,5 +23,6 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         StringBuilder fulladdress= new StringBuilder();
                 fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
         address.setText(fulladdress.toString());
+        rating.setText(String.valueOf(business.getRating()));
     }
 }

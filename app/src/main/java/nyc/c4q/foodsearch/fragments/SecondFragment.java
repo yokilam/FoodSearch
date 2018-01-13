@@ -44,19 +44,20 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_first, container, false);
 
+        userinput= v.findViewById(R.id.search_edit);
+        String input = "";
+        if (input.isEmpty()){
+            input= "burger";
+        } else {
+            input = userinput.getText().toString();
+        }
 
         rv= v.findViewById(R.id.food_rv);
-//        MainActivity main= (MainActivity) v.getContext();
-//        main.SetupRecyclerView();
         setupRetrofit();
-        rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
+//        rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
-        userinput= v.findViewById(R.id.search_edit);
-        String input = userinput.getText().toString();
-        if (input.isEmpty()){
-            input= "";
-        }
 
         return v;
     }
