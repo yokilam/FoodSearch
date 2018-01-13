@@ -12,14 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nyc.c4q.foodsearch.Business;
-import nyc.c4q.foodsearch.BusinessAdapter;
-import nyc.c4q.foodsearch.BusinessModel;
-import nyc.c4q.foodsearch.MainActivity;
+import nyc.c4q.foodsearch.mode.view.Business;
+import nyc.c4q.foodsearch.recycleview.BusinessAdapter;
+import nyc.c4q.foodsearch.mode.view.BusinessModel;
 import nyc.c4q.foodsearch.R;
 import nyc.c4q.foodsearch.api.YelpService;
 import nyc.c4q.foodsearch.constants.Constant;
@@ -38,24 +39,32 @@ public class SecondFragment extends Fragment {
     View v;
     String term = "burger";
     private RecyclerView rv;
-    List<Business> businessList= new ArrayList<>();
+    List<Business> businessList = new ArrayList<>();
     private EditText userinput;
+
+    AHBottomNavigation bottom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        v = inflater.inflate(R.layout.fragment_second, container, false);
 
-        rv= v.findViewById(R.id.food_rv);
+        bottom = getActivity().findViewById(R.id.bottom_navigation);
+        rv = v.findViewById(R.id.food_rv);
 //        MainActivity main= (MainActivity) v.getContext();
 //        main.SetupRecyclerView();
         setupRetrofit();
         rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
-        userinput= v.findViewById(R.id.search_edit);
+        userinput = v.findViewById(R.id.search_edit);
+        setup();
+
+
         String input = userinput.getText().toString();
-        if (input.isEmpty()){
-            input= "";
+
+        if (input.isEmpty()) {
+            input = "";
         }
 
         return v;
@@ -69,20 +78,18 @@ public class SecondFragment extends Fragment {
                 .build();
 
         YelpService yelpService = retrofit.create(YelpService.class);
-        Call <BusinessModel> call = yelpService.getResults
+        Call<BusinessModel> call = yelpService.getResults
                 ("Bearer " + Constant.API_KEY, term, -73.9415728, 40.743309);
-        call.enqueue(new Callback <BusinessModel>() {
+        call.enqueue(new Callback<BusinessModel>() {
             @Override
-            public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
+            public void onResponse(Call<BusinessModel> call, Response<BusinessModel> response) {
                 try {
                     if (response.isSuccessful()) {
                         BusinessModel businessModel = response.body();
-                        businessList =businessModel.getBusinesses();
+                        businessList = businessModel.getBusinesses();
                         rv.setAdapter(new BusinessAdapter(businessList));
-                        Log.d("onResponse: ", ""+businessList);
-
-
-                    }   else
+                        Log.d("onResponse: ", "" + businessList);
+                    } else
                         Log.d("onResponse: ", response.errorBody().string());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -90,7 +97,7 @@ public class SecondFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call <BusinessModel> call, Throwable t) {
+            public void onFailure(Call<BusinessModel> call, Throwable t) {
                 Log.d("onFailure: ", "" + t);
             }
         });
@@ -103,5 +110,24 @@ public class SecondFragment extends Fragment {
 //            return input= userinput;
 //        }
 //    }
+
+    public void setup() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                float tran = bottom.getTranslationY() + dy;
+
+                boolean scrooldown = dy > 0;
+
+                if (scrooldown) {
+                    tran = Math.min(tran, bottom.getHeight());
+                } else {
+                    tran = Math.max(tran, 0f);
+                }
+                bottom.setTranslationY(tran);
+            }
+        });
+    }
 
 }

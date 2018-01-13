@@ -1,7 +1,6 @@
 package nyc.c4q.foodsearch.api;
 
-import nyc.c4q.foodsearch.BusinessModel;
-import okhttp3.ResponseBody;
+import nyc.c4q.foodsearch.mode.view.BusinessModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
