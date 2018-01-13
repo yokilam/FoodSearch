@@ -38,6 +38,7 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         Business business = businessList.get(position);
         Picasso.with(holder.context)
                 .load(business.getImage_url())
+                .fit()
                 .into(holder.imageView);
 
         holder.address.setText(business.getLocation().getDisplay_address().get(0) + business.getLocation().getDisplay_address().get(1));

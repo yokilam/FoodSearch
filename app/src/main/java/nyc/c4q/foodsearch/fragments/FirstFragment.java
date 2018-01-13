@@ -124,6 +124,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 models.remove(viewHolder.getAdapterPosition());
+
                 try {
                     editor.remove(models.get(viewHolder.getAdapterPosition()).getId());
                     editor.commit();
@@ -145,13 +146,8 @@ public class FirstFragment extends Fragment {
         log = v.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         editor = log.edit();
 
-
         Map<String, ?> keys = log.getAll();
-
-        Log.e("This size is ", keys.size() + "");
-
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
-            Log.e("Im Running", "................");
             Gson gson = new Gson();
             String json = log.getString(entry.getKey(), null);
             Business obj = gson.fromJson(json, Business.class);
