@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import nyc.c4q.foodsearch.recycleview.ModelAdapter;
 import nyc.c4q.foodsearch.R;
+import nyc.c4q.foodsearch.recycleview.ModelAdapter;
 
 
 /**

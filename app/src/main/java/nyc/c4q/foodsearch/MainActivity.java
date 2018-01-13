@@ -1,17 +1,12 @@
 package nyc.c4q.foodsearch;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -19,12 +14,13 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import nyc.c4q.foodsearch.api.YelpService;
+import nyc.c4q.foodsearch.constants.Constant;
 import nyc.c4q.foodsearch.fragments.FirstFragment;
 import nyc.c4q.foodsearch.fragments.SecondFragment;
 import nyc.c4q.foodsearch.fragments.ThirdFragment;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,14 +29,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    String API_KEY = "2LI-rkohxty2ARYiC8vQcKhkm7SatgG4dsSVaySaeDWYqKWWTXqwpnhFNjMlqNHPpTwnTKhF0EvPn28M7oDGXr0VVms3XBfPPWmfbdOQ_KMTUGRQvVwUvjMA_vNXWnYx";
     String term = "burger";
 
     FirstFragment first = new FirstFragment();
     SecondFragment second = new SecondFragment();
     ThirdFragment third = new ThirdFragment();
 
-    private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
+   
+
+    private ArrayList <AHBottomNavigationItem> items = new ArrayList <>();
+
 
     AHBottomNavigation bottom;
 
@@ -50,40 +48,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottom = findViewById(R.id.bottom_navigation);
 
-        setupRetrofit();
         setBottomNav();
 
-    }
 
-
-    public void setupRetrofit() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.yelp.com/v3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        YelpService yelpService = retrofit.create(YelpService.class);
-        Call<ResponseBody> call = yelpService.getResults
-                ("Bearer " + API_KEY, term, -73.9415728, 40.743309);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    if (response.isSuccessful())
-                        Log.d("onResponse: ", response.body().string().toString());
-                    else
-                        Log.d("onResponse: ", response.errorBody().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("onFailure: ", "" + t);
-            }
-        });
     }
 
     public void setBottomNav() {
@@ -146,9 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
 
 }
