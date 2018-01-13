@@ -3,12 +3,14 @@ package nyc.c4q.foodsearch.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class SecondFragment extends Fragment {
     String term = "burger";
     private RecyclerView rv;
     List<Business> businessList= new ArrayList<>();
+    private EditText userinput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +50,13 @@ public class SecondFragment extends Fragment {
 //        MainActivity main= (MainActivity) v.getContext();
 //        main.SetupRecyclerView();
         setupRetrofit();
+        rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
+        userinput= v.findViewById(R.id.search_edit);
+        String input = userinput.getText().toString();
+        if (input.isEmpty()){
+            input= "";
+        }
 
         return v;
     }
@@ -86,6 +95,13 @@ public class SecondFragment extends Fragment {
             }
         });
     }
-
+//    public String input(String userinput){
+//        String input = "";
+//        if (userinput==null){
+//            return input;
+//        } else {
+//            return input= userinput;
+//        }
+//    }
 
 }
