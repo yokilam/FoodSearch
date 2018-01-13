@@ -23,7 +23,7 @@ public class Business {
         return categories;
     }
 
-    private class Coordinates {
+    public class Coordinates {
         private double latitude;
         private double longitude;
 
