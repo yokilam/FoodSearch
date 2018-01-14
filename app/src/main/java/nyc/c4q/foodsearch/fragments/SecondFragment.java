@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -40,8 +41,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class SecondFragment extends Fragment {
 
-    View v;
-    String term = "burger";
+    private View v;
+    private String term = "burger";
     private RecyclerView rv;
     List <Business> businessList = new ArrayList <>();
     private EditText userinput;
@@ -108,6 +109,7 @@ public class SecondFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if ((keyCode == KeyEvent.KEYCODE_ENTER) && !TextUtils.isEmpty(userinput.getText().toString())) {
+                        hideSoftKeyboard();
                         String searchText = userinput.getText().toString();
                         setupRetrofit(searchText);
                     }
@@ -135,5 +137,11 @@ public class SecondFragment extends Fragment {
             }
         });
     }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(userinput.getWindowToken(), 0);
+    }
+
 
 }

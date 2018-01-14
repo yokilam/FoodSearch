@@ -59,6 +59,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                button.setBackgroundResource(R.drawable.clicked_heart);
                 if (!log.contains(business.getId())){
                     Gson gson = new Gson();
                     String json = gson.toJson(business);
