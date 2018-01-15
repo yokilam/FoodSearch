@@ -1,19 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="nyc.c4q.foodsearch.fragments.ThirdFragment">
 
-
-    <TextView
+    <com.google.android.gms.maps.MapView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text= "Third Frag"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="40sp"/>
+        android:id="@+id/map">
 
 
+    </com.google.android.gms.maps.MapView>
 
-</LinearLayout>
+
+</FrameLayout>
