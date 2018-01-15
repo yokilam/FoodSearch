@@ -138,8 +138,6 @@ public class FirstFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
     public void setupShared() {
@@ -154,9 +152,5 @@ public class FirstFragment extends Fragment {
 
             models.add(obj);
         }
-
-
     }
-
-
 }
