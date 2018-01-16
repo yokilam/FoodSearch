@@ -55,11 +55,11 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
       }
         name.setText(business.getName());
         StringBuilder fulladdress= new StringBuilder();
-        fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
+        fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(", ").append(business.getLocation().getDisplay_address().get(1));
         address.setText(fulladdress.toString());
         StringBuilder categories= new StringBuilder();
-        categories.append(business.getCategories().get(0).getTitle()).append(", ").append(business.getCategories().get(1).getTitle()).toString();
-        rating.setText(String.valueOf(categories));
+        categories.append(business.getCategories().get(0).getTitle()).toString();
+        rating.setText(String.valueOf(business.getRating()));
         category.setText(business.getCategories().get(0).getTitle());
 
         Picasso.with(itemView.getContext())
@@ -91,4 +91,5 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
             }
         });
     }
+
 }
