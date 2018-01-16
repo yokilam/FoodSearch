@@ -38,7 +38,6 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         v = inflater.inflate(R.layout.fragment_third, container, false);
 
         return v;
@@ -49,7 +48,7 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback{
         super.onViewCreated(view, savedInstanceState);
 
         mapView= v.findViewById(R.id.map);
-        if (mapView!= null) {
+        if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
@@ -62,9 +61,17 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback{
         mGoogleMap= googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(40.743309, -73.9415728)).title("something").snippet("restaurant"));
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(40.743309, -73.9415728))
+                .title("something")
+                .snippet("restaurant"));
 
-        CameraPosition restaurant =CameraPosition.builder().target(new LatLng(40.743309, -73.9415728)).zoom(16).bearing(0).tilt(45).build();
+        CameraPosition restaurant =CameraPosition.builder()
+                .target(new LatLng(40.743309, -73.9415728))
+                .zoom(16)
+                .bearing(0)
+                .tilt(45)
+                .build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(restaurant));
     }
 }

@@ -42,7 +42,7 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
                 .load(business.getImage_url())
                 .into(holder.imageView);
 
-        holder.address.setText(business.getLocation().getDisplay_address().get(0) + business.getLocation().getDisplay_address().get(1));
+        holder.address.setText(business.getLocation().getDisplay_address().get(0) +" , "+ business.getLocation().getDisplay_address().get(1));
         holder.address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +50,6 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, myCord);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 holder.context.startActivity(mapIntent);
-
             }
         });
 

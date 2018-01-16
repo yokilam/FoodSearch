@@ -42,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SecondFragment extends Fragment {
 
     private View v;
-    private String term = "burger";
+    private String term;
     private RecyclerView rv;
     List <Business> businessList = new ArrayList <>();
     private EditText userinput;
@@ -55,7 +55,6 @@ public class SecondFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_second, container, false);
-
         bottom = getActivity().findViewById(R.id.bottom_navigation);
         rv = v.findViewById(R.id.food_rv);
         rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
@@ -64,7 +63,7 @@ public class SecondFragment extends Fragment {
         rv.setAdapter(adapter);
         setupRetrofit(term);
         userinput = v.findViewById(R.id.search_edit);
-        setup();
+//        setup();
         search();
         return v;
 
@@ -95,10 +94,9 @@ public class SecondFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Call <BusinessModel> call, Throwable t) {
-                Log.d("onFailure: ", "" + t);
+                Log.d("onFailure: ", "" + t.getMessage());
             }
         });
     }
@@ -120,22 +118,22 @@ public class SecondFragment extends Fragment {
     }
 
     public void setup() {
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                float tran = bottom.getTranslationY() + dy;
-
-                boolean scrooldown = dy > 0;
-
-                if (scrooldown) {
-                    tran = Math.min(tran, bottom.getHeight());
-                } else {
-                    tran = Math.max(tran, 0f);
-                }
-                bottom.setTranslationY(tran);
-            }
-        });
+//        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//
+//                float tran = bottom.getTranslationY() + dy;
+//
+//                boolean scrooldown = dy > 0;
+//
+//                if (scrooldown) {
+//                    tran = Math.min(tran, bottom.getHeight());
+//                } else {
+//                    tran = Math.max(tran, 0f);
+//                }
+//                bottom.setTranslationY(tran);
+//            }
+//        });
     }
 
     public void hideSoftKeyboard() {

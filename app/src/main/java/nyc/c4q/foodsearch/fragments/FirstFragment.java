@@ -56,101 +56,83 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_first, container, false);
-        setupShared();
         bottom = getActivity().findViewById(R.id.bottom_navigation);
-        setRecyclerView();
-        setupTouch();
-        helper.attachToRecyclerView(recyclerView);
+        log = v.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
+        editor = log.edit();
 
+        setRecyclerView();
+//        setupTouch();
+        setupShared();
+//        helper.attachToRecyclerView(recyclerView);
 
         return v;
     }
 
-
     public void setRecyclerView() {
-
-
         recyclerView = (RecyclerView) v.findViewById(R.id.recycle);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false);
-
         recyclerView.setLayoutManager(linearLayoutManager);
-
         adapter = new SavedRecycleView(models);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
 
-
                 float tran = bottom.getTranslationY() + dy;
-
-                whenEmpty = bottom.getTranslationY() + dy;
-
+                Log.e("YOOO",bottom.getHeight()+"");
                 boolean scrooldown = dy > 0;
-
                 if (scrooldown) {
                     tran = Math.min(tran, bottom.getHeight());
                 } else {
                     tran = Math.max(tran, 0f);
                 }
+
+                if (models.isEmpty()){
+
+                }
                 bottom.setTranslationY(tran);
+
             }
         });
     }
 
     public void setupTouch() {
 
-        helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
-                ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT |
-                ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-
-                int from = viewHolder.getAdapterPosition();
-                int to = target.getAdapterPosition();
-
-                Collections.swap(models, from, to);
-                adapter.notifyItemMoved(from, to);
-
-                return true;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                models.remove(viewHolder.getAdapterPosition());
-
-                try {
-                    editor.remove(models.get(viewHolder.getAdapterPosition()).getId());
-                    editor.commit();
-                } catch (IndexOutOfBoundsException e) {
-                }
-
-                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-
-                if (models.isEmpty() | log.getAll().isEmpty()){
-                         bottom.setTranslationY(whenEmpty);
-                }
-            }
-        });
+//        helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+//                ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT |
+//                ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+//                int from = viewHolder.getAdapterPosition();
+//                int to = target.getAdapterPosition();
+//                Collections.swap(models, from, to);
+//                adapter.notifyItemMoved(from, to);
+//                return true;
+//            }
+//
+//            @Override
+//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+//                String hello = models.get(viewHolder.getAdapterPosition()).getId();
+//                models.remove(viewHolder.getAdapterPosition());
+//                editor.remove(hello).commit();
+//                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+//            }
+//        });
     }
 
     public void setupShared() {
-        log = v.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
-        editor = log.edit();
-
         Map<String, ?> keys = log.getAll();
-        for (Map.Entry<String, ?> entry : keys.entrySet()) {
+        models.clear();
+        for (String entry : keys.keySet()) {
             Gson gson = new Gson();
-            String json = log.getString(entry.getKey(), null);
+            String json = log.getString(entry, null);
             Business obj = gson.fromJson(json, Business.class);
-
-            models.add(obj);
+            if (!models.contains(obj)) {
+                models.add(obj);
+            }
         }
     }
 }
