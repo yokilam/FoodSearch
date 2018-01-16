@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
     AHBottomNavigation bottom;
 
+    int hostTab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,30 +57,42 @@ public class MainActivity extends AppCompatActivity {
 
 // Colors for selected (active) and non-selected items (in color reveal mode).
         bottom.setColoredModeColors(Color.WHITE, Color.LTGRAY);
+
         bottom.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
+
                 switch (position) {
                     case 0:
                         FragmentManager manager2 = getSupportFragmentManager();
                         FragmentTransaction transaction2 = manager2.beginTransaction();
-                        transaction2.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                        transaction2.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
                         transaction2.replace(R.id.container, mapFrag);
                         transaction2.commit();
+                        hostTab=0;
                         break;
                     case 1:
+
+
                         FragmentManager manager1 = getSupportFragmentManager();
                         FragmentTransaction transaction1 = manager1.beginTransaction();
-                        transaction1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                         if (hostTab==0){
+                             transaction1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                         }else if (hostTab==2){
+                             transaction1.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                         }
+
                         transaction1.replace(R.id.container, listFrag);
                         transaction1.commit();
                         break;
                     case 2:
+
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction transaction = manager.beginTransaction();
                         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                         transaction.replace(R.id.container, favFrag);
                         transaction.commit();
+                        hostTab=2;
                         break;
                 }
                 return true;
