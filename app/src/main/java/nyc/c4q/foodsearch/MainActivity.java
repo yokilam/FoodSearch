@@ -5,33 +5,21 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import nyc.c4q.foodsearch.api.YelpService;
-import nyc.c4q.foodsearch.constants.Constant;
 import nyc.c4q.foodsearch.fragments.FirstFragment;
 import nyc.c4q.foodsearch.fragments.SecondFragment;
 import nyc.c4q.foodsearch.fragments.ThirdFragment;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirstFragment first = new FirstFragment();
-    SecondFragment second = new SecondFragment();
-    ThirdFragment third = new ThirdFragment();
+    FirstFragment favFrag = new FirstFragment();
+    SecondFragment listFrag = new SecondFragment();
+    ThirdFragment mapFrag = new ThirdFragment();
 
     private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
     AHBottomNavigation bottom;
@@ -51,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         bottom.setBehaviorTranslationEnabled(false);
 //        bottom.setColored(true);
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Favorites", R.drawable.blank_heart);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Map", R.drawable.ic_location_searching_black_24dp);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("List", R.drawable.headline);
-        final AHBottomNavigationItem item3 = new AHBottomNavigationItem("Map", R.drawable.ic_location_searching_black_24dp);
+        final AHBottomNavigationItem item3 = new AHBottomNavigationItem("Favorites", R.drawable.blank_heart );
 
         items.add(item1);
         items.add(item2);
@@ -72,29 +60,25 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTabSelected(int position, boolean wasSelected) {
                 switch (position) {
                     case 0:
-                        item3.setDrawable(R.drawable.ic_location_searching_black_24dp);
-
-                        FragmentManager manager = getSupportFragmentManager();
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                        transaction.replace(R.id.container, first);
-                        transaction.commit();
-                        break;
-                    case 1:
-                        item3.setDrawable(R.drawable.ic_location_searching_black_24dp);
-                        FragmentManager manager1 = getSupportFragmentManager();
-                        FragmentTransaction transaction1 = manager1.beginTransaction();
-                        transaction1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                        transaction1.replace(R.id.container, second);
-                        transaction1.commit();
-                        break;
-                    case 2:
-                        item3.setDrawable(R.drawable.ic_location_searching_black_24dp);
                         FragmentManager manager2 = getSupportFragmentManager();
                         FragmentTransaction transaction2 = manager2.beginTransaction();
                         transaction2.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                        transaction2.replace(R.id.container, third);
+                        transaction2.replace(R.id.container, mapFrag);
                         transaction2.commit();
+                        break;
+                    case 1:
+                        FragmentManager manager1 = getSupportFragmentManager();
+                        FragmentTransaction transaction1 = manager1.beginTransaction();
+                        transaction1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                        transaction1.replace(R.id.container, listFrag);
+                        transaction1.commit();
+                        break;
+                    case 2:
+                        FragmentManager manager = getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                        transaction.replace(R.id.container, favFrag);
+                        transaction.commit();
                         break;
                 }
                 return true;

@@ -62,9 +62,9 @@ public class FirstFragment extends Fragment {
         editor = log.edit();
 
         setRecyclerView();
-//        setupTouch();
+        setupTouch();
         setupShared();
-//        helper.attachToRecyclerView(recyclerView);
+        helper.attachToRecyclerView(recyclerView);
 
         return v;
     }
@@ -101,26 +101,26 @@ public class FirstFragment extends Fragment {
 
     public void setupTouch() {
 
-//        helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
-//                ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT |
-//                ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                int from = viewHolder.getAdapterPosition();
-//                int to = target.getAdapterPosition();
-//                Collections.swap(models, from, to);
-//                adapter.notifyItemMoved(from, to);
-//                return true;
-//            }
-//
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//                String hello = models.get(viewHolder.getAdapterPosition()).getId();
-//                models.remove(viewHolder.getAdapterPosition());
-//                editor.remove(hello).commit();
-//                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-//            }
-//        });
+        helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT |
+                ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+                Collections.swap(models, from, to);
+                adapter.notifyItemMoved(from, to);
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                String hello = models.get(viewHolder.getAdapterPosition()).getId();
+                models.remove(viewHolder.getAdapterPosition());
+                editor.remove(hello).commit();
+                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        });
     }
 
     public void setupShared() {
