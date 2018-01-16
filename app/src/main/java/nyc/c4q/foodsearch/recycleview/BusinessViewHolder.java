@@ -22,7 +22,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class BusinessViewHolder extends RecyclerView.ViewHolder {
-    private TextView name, address,rating;
+    private TextView name, address, rating;
     private ImageView businesslogo;
 
     private SharedPreferences log;
@@ -33,43 +33,47 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
 
     public BusinessViewHolder(View itemView) {
         super(itemView);
-        name= itemView.findViewById(R.id.name);
-        address= itemView.findViewById(R.id.display_address);
-        rating= itemView.findViewById(R.id.rating);
-        businesslogo= itemView.findViewById(R.id.business_image);
-        button=itemView.findViewById(R.id.button);
+        name = itemView.findViewById(R.id.name);
+        address = itemView.findViewById(R.id.display_address);
+        rating = itemView.findViewById(R.id.rating);
+        businesslogo = itemView.findViewById(R.id.business_image);
+        button = itemView.findViewById(R.id.button);
 
         log = itemView.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         editor = log.edit();
     }
 
     public void onBind(final Business business) {
-      if (log.contains(business.getId())){
-          Log.e("I Contain",business.getId());
-          button.setBackgroundResource(R.drawable.clicked_heart);
-      } else if (!log.contains(business.getId())){
-          button.setBackgroundResource(R.drawable.heart);
-      }
+        if (log.contains(business.getId())) {
+            button.setBackgroundResource(R.drawable.clicked_heart);
+        } else if (!log.contains(business.getId())) {
+            button.setBackgroundResource(R.drawable.heart);
+        }
+
+
         name.setText(business.getName());
-        StringBuilder fulladdress= new StringBuilder();
-                fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
+        StringBuilder fulladdress = new StringBuilder();
+        fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
         address.setText(fulladdress.toString());
         rating.setText(String.valueOf(business.getRating()));
         Picasso.with(itemView.getContext())
                 .load(business.getImage_url())
-                .transform(new RoundedCornersTransformation(8,8))
+                .transform(new RoundedCornersTransformation(8, 8))
                 .fit()
                 .into(businesslogo);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!log.contains(business.getId())){
+                if (!log.contains(business.getId())) {
                     button.setBackgroundResource(R.drawable.clicked_heart);
                     Gson gson = new Gson();
                     String json = gson.toJson(business);
                     editor.putString(business.getId(), json);
                     editor.commit();
+                } else if (log.contains(business.getId())) {
+                    editor.remove(business.getId()).commit();
+                    button.setBackgroundResource(R.drawable.heart);
                 }
             }
         });
