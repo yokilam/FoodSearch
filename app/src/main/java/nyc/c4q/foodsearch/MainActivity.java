@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirstFragment favFrag = new FirstFragment();
     SecondFragment listFrag = new SecondFragment();
-    ThirdFragment mapFrag = new ThirdFragment();
+    public ThirdFragment mapFrag = new ThirdFragment();
 
     private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
     AHBottomNavigation bottom;

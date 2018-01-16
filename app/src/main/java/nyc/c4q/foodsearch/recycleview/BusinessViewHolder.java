@@ -47,6 +47,8 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
       if (log.contains(business.getId())){
           Log.e("I Contain",business.getId());
           button.setBackgroundResource(R.drawable.clicked_heart);
+      } else if (!log.contains(business.getId())){
+          button.setBackgroundResource(R.drawable.heart);
       }
         name.setText(business.getName());
         StringBuilder fulladdress= new StringBuilder();
