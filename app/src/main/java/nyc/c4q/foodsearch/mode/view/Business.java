@@ -115,7 +115,7 @@ public class Business {
         return display_phone;
     }
 
-    private class Categories {
+    public class Categories {
         private String alias;
         private String title;
 

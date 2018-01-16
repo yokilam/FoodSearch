@@ -25,15 +25,9 @@ import nyc.c4q.foodsearch.R;
  * A simple {@link Fragment} subclass.
  */
 public class ThirdFragment extends Fragment implements OnMapReadyCallback{
-    View v;
+    private View v;
     GoogleMap mGoogleMap;
-    MapView mapView;
-
-
-    public ThirdFragment() {
-        // Required empty public constructor
-    }
-
+    private MapView mapView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,10 +43,12 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback{
 
         mapView= v.findViewById(R.id.map);
         if (mapView != null) {
+
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
         }
+
     }
 
     @Override
