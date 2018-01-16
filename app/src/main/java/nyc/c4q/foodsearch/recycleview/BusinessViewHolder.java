@@ -1,8 +1,6 @@
 package nyc.c4q.foodsearch.recycleview;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +22,11 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class BusinessViewHolder extends RecyclerView.ViewHolder {
+
+
+
     private TextView name, address,rating, category;
     private ImageView businesslogo;
-
     private SharedPreferences log;
     private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
     private SharedPreferences.Editor editor;
@@ -35,6 +35,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
 
     public BusinessViewHolder(View itemView) {
         super(itemView);
+
         name= itemView.findViewById(R.id.name);
         address= itemView.findViewById(R.id.display_address);
         rating= itemView.findViewById(R.id.rating);
@@ -47,14 +48,16 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(final Business business) {
-      if (log.contains(business.getId())){
-          Log.e("I Contain",business.getId());
-          button.setBackgroundResource(R.drawable.clicked_heart);
-      } else if (!log.contains(business.getId())){
-          button.setBackgroundResource(R.drawable.heart);
-      }
+        if (log.contains(business.getId())) {
+            button.setBackgroundResource(R.drawable.clicked_heart);
+        } else if (!log.contains(business.getId())) {
+            button.setBackgroundResource(R.drawable.heart);
+        }
+
+
         name.setText(business.getName());
         StringBuilder fulladdress= new StringBuilder();
+
         fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
         address.setText(fulladdress.toString());
         StringBuilder categories= new StringBuilder();
@@ -64,30 +67,23 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
 
         Picasso.with(itemView.getContext())
                 .load(business.getImage_url())
-                .transform(new RoundedCornersTransformation(8,8))
+                .transform(new RoundedCornersTransformation(8, 8))
                 .fit()
                 .into(businesslogo);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!log.contains(business.getId())){
+                if (!log.contains(business.getId())) {
                     button.setBackgroundResource(R.drawable.clicked_heart);
                     Gson gson = new Gson();
                     String json = gson.toJson(business);
                     editor.putString(business.getId(), json);
                     editor.commit();
+                } else if (log.contains(business.getId())) {
+                    editor.remove(business.getId()).commit();
+                    button.setBackgroundResource(R.drawable.heart);
                 }
-            }
-        });
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = business.getUrl();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                itemView.getContext().startActivity(intent);
             }
         });
     }

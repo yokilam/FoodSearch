@@ -17,14 +17,14 @@ import nyc.c4q.foodsearch.fragments.ThirdFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirstFragment favFrag = new FirstFragment();
-    SecondFragment listFrag = new SecondFragment();
-    public ThirdFragment mapFrag = new ThirdFragment();
+    private FirstFragment favFrag = new FirstFragment();
+    private SecondFragment listFrag = new SecondFragment();
+    private ThirdFragment mapFrag = new ThirdFragment();
 
     private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
-    AHBottomNavigation bottom;
+    private AHBottomNavigation bottom;
 
-    int hostTab;
+    private int hostTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
                         hostTab=0;
                         break;
                     case 1:
-
-
                         FragmentManager manager1 = getSupportFragmentManager();
                         FragmentTransaction transaction1 = manager1.beginTransaction();
                          if (hostTab==0){
@@ -81,12 +79,10 @@ public class MainActivity extends AppCompatActivity {
                          }else if (hostTab==2){
                              transaction1.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
                          }
-
                         transaction1.replace(R.id.container, listFrag);
                         transaction1.commit();
                         break;
                     case 2:
-
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction transaction = manager.beginTransaction();
                         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);

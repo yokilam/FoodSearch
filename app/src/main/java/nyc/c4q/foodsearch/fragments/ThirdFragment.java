@@ -40,7 +40,6 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         mapView= v.findViewById(R.id.map);
         if (mapView != null) {
 

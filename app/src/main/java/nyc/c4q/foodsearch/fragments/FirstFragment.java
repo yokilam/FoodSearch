@@ -52,7 +52,6 @@ public class FirstFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,7 +79,6 @@ public class FirstFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-
                 float tran = bottom.getTranslationY() + dy;
                 Log.e("YOOO",bottom.getHeight()+"");
                 boolean scrooldown = dy > 0;
@@ -89,12 +87,10 @@ public class FirstFragment extends Fragment {
                 } else {
                     tran = Math.max(tran, 0f);
                 }
-
                 if (models.isEmpty()){
 
                 }
                 bottom.setTranslationY(tran);
-
             }
         });
     }
