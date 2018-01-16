@@ -63,7 +63,7 @@ public class SecondFragment extends Fragment {
         rv.setAdapter(adapter);
         setupRetrofit(term);
         userinput = v.findViewById(R.id.search_edit);
-//        setup();
+        setup();
         search();
         return v;
 
@@ -118,22 +118,20 @@ public class SecondFragment extends Fragment {
     }
 
     public void setup() {
-//        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//
-//                float tran = bottom.getTranslationY() + dy;
-//
-//                boolean scrooldown = dy > 0;
-//
-//                if (scrooldown) {
-//                    tran = Math.min(tran, bottom.getHeight());
-//                } else {
-//                    tran = Math.max(tran, 0f);
-//                }
-//                bottom.setTranslationY(tran);
-//            }
-//        });
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                float tran = bottom.getTranslationY() + dy;
+                boolean scrooldown = dy > 0;
+
+                if (scrooldown) {
+                    tran = Math.min(tran, bottom.getHeight());
+                } else {
+                    tran = Math.max(tran, 0f);
+                }
+                bottom.setTranslationY(tran);
+            }
+        });
     }
 
     public void hideSoftKeyboard() {

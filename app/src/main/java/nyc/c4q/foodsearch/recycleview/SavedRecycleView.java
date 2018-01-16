@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import nyc.c4q.foodsearch.MainActivity;
 import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.R;
 
@@ -46,10 +47,11 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         holder.address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri myCord = Uri.parse("geo:" + business.getCoordinates().getLatitude() + "," + business.getCoordinates().getLongitude());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, myCord);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                holder.context.startActivity(mapIntent);
+//                Uri myCord = Uri.parse("geo:" + business.getCoordinates().getLatitude() + "," + business.getCoordinates().getLongitude());
+//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, myCord);
+//                mapIntent.setPackage("com.google.android.apps.maps");
+//                holder.context.startActivity(mapIntent);
+
             }
         });
 
