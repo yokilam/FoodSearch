@@ -29,30 +29,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    String term = "burger";
-
     FirstFragment first = new FirstFragment();
     SecondFragment second = new SecondFragment();
     ThirdFragment third = new ThirdFragment();
 
-    private ArrayList <AHBottomNavigationItem> items = new ArrayList <>();
-
+    private ArrayList<AHBottomNavigationItem> items = new ArrayList<>();
     AHBottomNavigation bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottom = findViewById(R.id.bottom_navigation);
 
         setBottomNav();
-
     }
 
     public void setBottomNav() {
         bottom = findViewById(R.id.bottom_navigation);
+        bottom.setCurrentItem(2);
+//        bottom.setTranslucentNavigationEnabled(false);
+        bottom.setBehaviorTranslationEnabled(false);
+//        bottom.setColored(true);
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Favorites", R.drawable.star_black);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Favorites", R.drawable.blank_heart);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("List", R.drawable.headline);
         final AHBottomNavigationItem item3 = new AHBottomNavigationItem("Map", R.drawable.ic_location_searching_black_24dp);
 
@@ -66,17 +65,11 @@ public class MainActivity extends AppCompatActivity {
 //        bottom.setAccentColor(Color.RED);
 //        bottom.setInactiveColor(Color.LTGRAY);
 
-        bottom.setCurrentItem(1);
-        bottom.setTranslucentNavigationEnabled(true);
-        bottom.setBehaviorTranslationEnabled(true);
-        bottom.setColored(true);
 // Colors for selected (active) and non-selected items (in color reveal mode).
         bottom.setColoredModeColors(Color.WHITE, Color.LTGRAY);
-
         bottom.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-
                 switch (position) {
                     case 0:
                         item3.setDrawable(R.drawable.ic_location_searching_black_24dp);
@@ -89,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1:
                         item3.setDrawable(R.drawable.ic_location_searching_black_24dp);
-
                         FragmentManager manager1 = getSupportFragmentManager();
                         FragmentTransaction transaction1 = manager1.beginTransaction();
                         transaction1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);

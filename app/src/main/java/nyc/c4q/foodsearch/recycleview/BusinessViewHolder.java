@@ -2,6 +2,7 @@ package nyc.c4q.foodsearch.recycleview;
 
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +44,10 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(final Business business) {
+      if (log.contains(business.getId())){
+          Log.e("I Contain",business.getId());
+          button.setBackgroundResource(R.drawable.clicked_heart);
+      }
         name.setText(business.getName());
         StringBuilder fulladdress= new StringBuilder();
                 fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
@@ -54,18 +59,15 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
                 .fit()
                 .into(businesslogo);
 
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button.setBackgroundResource(R.drawable.clicked_heart);
                 if (!log.contains(business.getId())){
+                    button.setBackgroundResource(R.drawable.clicked_heart);
                     Gson gson = new Gson();
                     String json = gson.toJson(business);
-
                     editor.putString(business.getId(), json);
                     editor.commit();
-
                 }
             }
         });
