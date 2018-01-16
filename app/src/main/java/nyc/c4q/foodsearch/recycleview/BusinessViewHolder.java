@@ -22,22 +22,26 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class BusinessViewHolder extends RecyclerView.ViewHolder {
-    private TextView name, address, rating;
-    private ImageView businesslogo;
 
+
+
+    private TextView name, address,rating, category;
+    private ImageView businesslogo;
     private SharedPreferences log;
     private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
-    SharedPreferences.Editor editor;
-    Button button;
+    private SharedPreferences.Editor editor;
+    private Button button;
 
 
     public BusinessViewHolder(View itemView) {
         super(itemView);
-        name = itemView.findViewById(R.id.name);
-        address = itemView.findViewById(R.id.display_address);
-        rating = itemView.findViewById(R.id.rating);
-        businesslogo = itemView.findViewById(R.id.business_image);
-        button = itemView.findViewById(R.id.button);
+
+        name= itemView.findViewById(R.id.name);
+        address= itemView.findViewById(R.id.display_address);
+        rating= itemView.findViewById(R.id.rating);
+        category= itemView.findViewById(R.id.category);
+        businesslogo= itemView.findViewById(R.id.business_image);
+        button=itemView.findViewById(R.id.button);
 
         log = itemView.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         editor = log.edit();
@@ -52,10 +56,15 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
 
 
         name.setText(business.getName());
-        StringBuilder fulladdress = new StringBuilder();
+        StringBuilder fulladdress= new StringBuilder();
+
         fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
         address.setText(fulladdress.toString());
-        rating.setText(String.valueOf(business.getRating()));
+        StringBuilder categories= new StringBuilder();
+        categories.append(business.getCategories().get(0).getTitle()).append(", ").append(business.getCategories().get(1).getTitle()).toString();
+        rating.setText(String.valueOf(categories));
+        category.setText(business.getCategories().get(0).getTitle());
+
         Picasso.with(itemView.getContext())
                 .load(business.getImage_url())
                 .transform(new RoundedCornersTransformation(8, 8))
