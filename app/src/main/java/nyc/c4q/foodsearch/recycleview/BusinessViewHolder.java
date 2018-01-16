@@ -1,6 +1,8 @@
 package nyc.c4q.foodsearch.recycleview;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -76,6 +78,16 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
                     editor.putString(business.getId(), json);
                     editor.commit();
                 }
+            }
+        });
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = business.getUrl();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                itemView.getContext().startActivity(intent);
             }
         });
     }
