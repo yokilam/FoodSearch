@@ -33,14 +33,13 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class FirstFragment extends Fragment {
 
-    View v;
-    RecyclerView recyclerView;
-    SavedRecycleView adapter;
-    AHBottomNavigation bottom;
-    List<Business> models = new ArrayList<>();
+    private View v;
+    private RecyclerView recyclerView;
+    private SavedRecycleView adapter;
+    private AHBottomNavigation bottom;
+    private List<Business> models = new ArrayList<>();
 
     float whenEmpty;
-
 
     private SharedPreferences log;
     private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
@@ -51,7 +50,6 @@ public class FirstFragment extends Fragment {
     public FirstFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

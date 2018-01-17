@@ -1,8 +1,15 @@
 package nyc.c4q.foodsearch.recycleview;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+import nyc.c4q.foodsearch.mode.view.Business;<<<<<<< HEAD
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+=======
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+>>>>>>> fb4b0c07829465616e42030584288a3c58c43007
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -93,6 +100,16 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = business.getUrl();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     public String getCategories(Business business) {
@@ -102,4 +119,5 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         }
         return categories.substring(0, categories.length() - 2);
     }
+
 }
