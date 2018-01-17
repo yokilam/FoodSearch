@@ -78,8 +78,8 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         shineButtonJava.setBtnFillColor(Color.RED);
         shineButtonJava.setShapeResource(R.raw.heart);
         shineButtonJava.setAllowRandomColor(true);
-        shineButtonJava.setShineSize(200);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(150, 150);
+        shineButtonJava.setShineSize(50);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
         shineButtonJava.setLayoutParams(layoutParams);
 //        if (linearLayout != null) {
 //            linearLayout.addView(shineButtonJava);
