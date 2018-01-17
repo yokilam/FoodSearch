@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,10 +14,9 @@ import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
-import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.R;
+import nyc.c4q.foodsearch.mode.view.Business;
 
-import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -54,9 +51,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(final Business business) {
         name.setText(business.getName());
-        StringBuilder fulladdress = new StringBuilder();
-        fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(", ").append(business.getLocation().getDisplay_address().get(1));
-        address.setText(fulladdress.toString());
+        address.setText(getAddress(business));
         rating.setText(String.valueOf(business.getRating()));
         category.setText(getCategories(business));
 
@@ -78,7 +73,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         if (log.contains(business.getId())) {
             shineButton.setChecked(true);
         } else if (!log.contains(business.getId())) {
-           shineButton.setChecked(false);
+            shineButton.setChecked(false);
         }
         shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +93,17 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
     public String getCategories(Business business) {
         StringBuilder categories = new StringBuilder();
         for (int i = 0; i < business.getCategories().size(); i++) {
-            categories.append(business.getCategories().get(i).getTitle()).append(", ");
+            categories.append(business.getCategories().get(i).getTitle())
+                    .append(", ");
         }
         return categories.substring(0, categories.length() - 2);
+    }
+
+    public String getAddress(Business business) {
+        StringBuilder address = new StringBuilder();
+        address.append(business.getLocation().getDisplay_address().get(0))
+                .append(", ")
+                .append(business.getLocation().getCity());
+        return address.toString();
     }
 }

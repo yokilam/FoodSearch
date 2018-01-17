@@ -1,9 +1,16 @@
 package nyc.c4q.foodsearch.fragments;
 
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.foodsearch.MainActivity;
 import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.recycleview.BusinessAdapter;
 import nyc.c4q.foodsearch.mode.view.BusinessModel;
@@ -49,12 +57,16 @@ public class SecondFragment extends Fragment {
 
     private BusinessAdapter adapter;
     AHBottomNavigation bottom;
+    LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_second, container, false);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+
         bottom = getActivity().findViewById(R.id.bottom_navigation);
         rv = v.findViewById(R.id.food_rv);
         rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
@@ -78,7 +90,7 @@ public class SecondFragment extends Fragment {
 
         YelpService yelpService = retrofit.create(YelpService.class);
         Call <BusinessModel> call = yelpService.getResults
-                ("Bearer " + Constant.API_KEY, term, -73.9415728, 40.743309);
+        ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude());
         call.enqueue(new Callback <BusinessModel>() {
             @Override
             public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
@@ -94,6 +106,7 @@ public class SecondFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call <BusinessModel> call, Throwable t) {
                 Log.d("onFailure: ", "" + t.getMessage());
