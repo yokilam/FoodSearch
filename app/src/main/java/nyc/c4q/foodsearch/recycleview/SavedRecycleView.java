@@ -2,14 +2,18 @@ package nyc.c4q.foodsearch.recycleview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,6 +21,8 @@ import java.util.List;
 import nyc.c4q.foodsearch.MainActivity;
 import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by jervon.arnoldd on 1/13/18.
@@ -65,6 +71,29 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
             }
         });
         holder.businessName.setText(business.getName());
+
+        ShineButton shineButtonJava = new ShineButton(holder.context.getApplicationContext());
+
+        shineButtonJava.setBtnColor(Color.GRAY);
+        shineButtonJava.setBtnFillColor(Color.RED);
+        shineButtonJava.setShapeResource(R.raw.heart);
+        shineButtonJava.setAllowRandomColor(true);
+        shineButtonJava.setShineSize(50);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
+        shineButtonJava.setLayoutParams(layoutParams);
+//        if (linearLayout != null) {
+//            linearLayout.addView(shineButtonJava);
+//        }
+
+        holder. shineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "click");
+            }
+        });
+
+
+
     }
 
     @Override
@@ -78,6 +107,8 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         TextView phoneNum;
         TextView address;
         Context context;
+        ShineButton shineButton;
+
 
         public Test_Holder(View itemView) {
             super(itemView);
@@ -86,6 +117,7 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
             phoneNum = itemView.findViewById(R.id.phone_number);
             address = itemView.findViewById(R.id.address);
             context = itemView.getContext();
+            shineButton = itemView.findViewById(R.id.po_image0);
         }
     }
 }

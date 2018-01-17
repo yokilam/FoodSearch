@@ -47,6 +47,9 @@ public class FirstFragment extends Fragment {
 
     ItemTouchHelper helper;
 
+    public FirstFragment() {
+        // Required empty public constructor
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,12 +85,10 @@ public class FirstFragment extends Fragment {
                 } else {
                     tran = Math.max(tran, 0f);
                 }
-
                 if (models.isEmpty()){
 
                 }
                 bottom.setTranslationY(tran);
-
             }
         });
     }
