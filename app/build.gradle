@@ -40,4 +40,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
+    compile 'com.sackcentury:shinebutton:0.2.0'
 }
