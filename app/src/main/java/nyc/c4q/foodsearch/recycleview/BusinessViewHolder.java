@@ -61,7 +61,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         fulladdress.append(business.getLocation().getDisplay_address().get(0)).append(business.getLocation().getDisplay_address().get(1));
         address.setText(fulladdress.toString());
         StringBuilder categories= new StringBuilder();
-        categories.append(business.getCategories().get(0).getTitle()).append(", ").append(business.getCategories().get(1).getTitle()).toString();
+//        categories.append(business.getCategories().get(0).getTitle()).append(", ").append(business.getCategories().get(1).getTitle()).toString();
         rating.setText(String.valueOf(categories));
         category.setText(business.getCategories().get(0).getTitle());
 
