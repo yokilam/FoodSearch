@@ -18,21 +18,25 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import nyc.c4q.foodsearch.MainActivity;
 import nyc.c4q.foodsearch.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ThirdFragment extends Fragment implements OnMapReadyCallback{
+public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     private View v;
     GoogleMap mGoogleMap;
     private MapView mapView;
+    private Double bussinessLag;
+    private Double bussinessLong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_third, container, false);
+        getCoordinates();
 
         return v;
     }
@@ -40,33 +44,43 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapView= v.findViewById(R.id.map);
+        mapView = v.findViewById(R.id.map);
         if (mapView != null) {
 
             mapView.onCreate(null);
             mapView.onResume();
             mapView.getMapAsync(this);
         }
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
-        mGoogleMap= googleMap;
+        mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(40.743309, -73.9415728))
+                .position(new LatLng(bussinessLag, bussinessLong))
                 .title("something")
                 .snippet("restaurant"));
 
-        CameraPosition restaurant =CameraPosition.builder()
-                .target(new LatLng(40.743309, -73.9415728))
+        CameraPosition restaurant = CameraPosition.builder()
+                .target(new LatLng(bussinessLag, bussinessLong))
                 .zoom(16)
                 .bearing(0)
                 .tilt(45)
                 .build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(restaurant));
+    }
+
+    public void getCoordinates() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            bussinessLong = bundle.getDouble("long");
+            bussinessLag = bundle.getDouble("lag");
+        } else {
+            bussinessLag= MainActivity.getCurrentLatitude();
+            bussinessLong= MainActivity.getCurrentLongitude();
+        }
     }
 }

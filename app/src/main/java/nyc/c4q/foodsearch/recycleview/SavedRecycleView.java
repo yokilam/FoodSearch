@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import nyc.c4q.foodsearch.MainActivity;
+import nyc.c4q.foodsearch.fragments.ThirdFragment;
 import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.R;
 
@@ -53,6 +58,17 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         holder.address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle= new Bundle();
+                bundle.putDouble("long", business.getCoordinates().getLongitude());
+                bundle.putDouble("lag", business.getCoordinates().getLatitude());
+                Log.d(TAG, "onClick: " + business.getCoordinates().getLatitude() + " " + business.getCoordinates().getLongitude());
+                ThirdFragment mfrag= new ThirdFragment();
+                mfrag.setArguments(bundle);
+                FragmentManager manager2 = ((FragmentActivity)holder.context).getSupportFragmentManager();
+                FragmentTransaction transaction2 = manager2.beginTransaction();
+                transaction2.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                transaction2.replace(R.id.container, mfrag);
+                transaction2.commit();
 //                Uri myCord = Uri.parse("geo:" + business.getCoordinates().getLatitude() + "," + business.getCoordinates().getLongitude());
 //                Intent mapIntent = new Intent(Intent.ACTION_VIEW, myCord);
 //                mapIntent.setPackage("com.google.android.apps.maps");
