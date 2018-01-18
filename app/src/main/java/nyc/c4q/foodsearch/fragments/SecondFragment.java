@@ -53,11 +53,13 @@ public class SecondFragment extends Fragment {
     private String term;
     private RecyclerView rv;
     List <Business> businessList = new ArrayList <>();
+    List<Business>  sortList= new ArrayList<>();
     private EditText userinput;
 
     private BusinessAdapter adapter;
     AHBottomNavigation bottom;
     LocationManager locationManager;
+    private String rating="rating";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,6 +112,22 @@ public class SecondFragment extends Fragment {
             @Override
             public void onFailure(Call <BusinessModel> call, Throwable t) {
                 Log.d("onFailure: ", "" + t.getMessage());
+            }
+        });
+        Call<BusinessModel> sortCall=yelpService.getSortRating("Bearer "+Constant.API_KEY,term,MainActivity.getCurrentLongitude(),MainActivity.getCurrentLatitude(),rating
+        );
+        sortCall.enqueue(new Callback<BusinessModel>() {
+            @Override
+            public void onResponse(Call<BusinessModel> call, Response<BusinessModel> response) {
+                BusinessModel sortingModel=response.body();
+                sortList= sortingModel.getBusinesses();
+                Log.d("SecondFragment",sortList.toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<BusinessModel> call, Throwable t) {
+
             }
         });
     }
