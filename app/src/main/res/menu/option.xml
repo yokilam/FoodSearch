@@ -4,19 +4,19 @@
     <item
         android:id="@+id/action_favorites"
         android:enabled="true"
-        android:icon="@drawable/ic_location_searching_black_24dp"
+        android:icon="@drawable/search"
         android:title="Test 1"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_schedules"
         android:enabled="true"
         android:icon="@drawable/ic_view_list"
-        android:title="Test 2"
+        android:title="Rating"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_music"
         android:enabled="true"
         android:icon="@drawable/ic_map"
-        android:title="Test 3"
+        android:title="Distance"
         app:showAsAction="ifRoom" />
 </menu>
