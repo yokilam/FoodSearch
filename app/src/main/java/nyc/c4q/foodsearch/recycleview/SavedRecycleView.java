@@ -61,6 +61,7 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
                 Bundle bundle= new Bundle();
                 bundle.putDouble("long", business.getCoordinates().getLongitude());
                 bundle.putDouble("lag", business.getCoordinates().getLatitude());
+                bundle.putString("name", business.getName());
                 Log.d(TAG, "onClick: " + business.getCoordinates().getLatitude() + " " + business.getCoordinates().getLongitude());
                 ThirdFragment mfrag= new ThirdFragment();
                 mfrag.setArguments(bundle);

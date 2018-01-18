@@ -43,6 +43,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.ContentValues.TAG;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,11 +52,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SecondFragment extends Fragment {
 
     private View v;
-    private String term;
+    private String term= "burger";
     private RecyclerView rv;
     List <Business> businessList = new ArrayList <>();
     List<Business>  sortList= new ArrayList<>();
     private EditText userinput;
+    private double c4qLat= 40.7429595;
+    private double c4qLong=-73.9415728;
 
     private BusinessAdapter adapter;
     AHBottomNavigation bottom;
@@ -114,13 +118,15 @@ public class SecondFragment extends Fragment {
                 Log.d("onFailure: ", "" + t.getMessage());
             }
         });
-        Call<BusinessModel> sortCall=yelpService.getSortRating("Bearer "+Constant.API_KEY,term,MainActivity.getCurrentLongitude(),MainActivity.getCurrentLatitude(),rating
-        );
+        Call<BusinessModel> sortCall=yelpService.getSortRating
+                ("Bearer "+Constant.API_KEY,term,c4qLong,c4qLat,rating);
         sortCall.enqueue(new Callback<BusinessModel>() {
             @Override
-            public void onResponse(Call<BusinessModel> call, Response<BusinessModel> response) {
-                BusinessModel sortingModel=response.body();
-                sortList= sortingModel.getBusinesses();
+            public void onResponse(Call<BusinessModel> call, Response<BusinessModel> responseTwo) {
+
+                BusinessModel sortingModel=responseTwo.body();
+                Log.d(TAG, "onResponse: " + sortingModel.toString());
+//                sortList= sortingModel.getBusinesses();
                 Log.d("SecondFragment",sortList.toString());
 
             }

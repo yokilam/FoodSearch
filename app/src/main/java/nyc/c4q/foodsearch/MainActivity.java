@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setBottomNav();
-        isServicesOK();
-        getLocationPermission();
-        getDeviceLocation();
+//        isServicesOK();
+//        getLocationPermission();
+//        getDeviceLocation();
     }
 
     public boolean isServicesOK() {

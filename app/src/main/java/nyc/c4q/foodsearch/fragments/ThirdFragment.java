@@ -1,9 +1,12 @@
 package nyc.c4q.foodsearch.fragments;
 
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +21,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import nyc.c4q.foodsearch.MainActivity;
 import nyc.c4q.foodsearch.R;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -31,12 +40,14 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private Double bussinessLag;
     private Double bussinessLong;
+    private String businessName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_third, container, false);
         getCoordinates();
+        geoLocate();
 
         return v;
     }
@@ -78,9 +89,25 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         if (bundle != null) {
             bussinessLong = bundle.getDouble("long");
             bussinessLag = bundle.getDouble("lag");
+            businessName= bundle.getString("name");
         } else {
             bussinessLag= MainActivity.getCurrentLatitude();
             bussinessLong= MainActivity.getCurrentLongitude();
+            Log.d(TAG, "getCoordinates: " + bussinessLag + " " + bussinessLong);
+        }
+    }
+
+    private void geoLocate(){
+        Geocoder geocoder= new Geocoder(getActivity());
+        List<Address> list= new ArrayList <>();
+        try {
+            list = geocoder.getFromLocation(bussinessLag,bussinessLong, 1);
+        }catch (IOException e) {
+            Log.e(TAG, "geoLocate: " + e.getMessage());
+        }
+        if (list.size()>0) {
+            Address address= list.get(0);
+            Log.d(TAG, "geoLocate: found a location" + address.toString());
         }
     }
 }
