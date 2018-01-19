@@ -125,7 +125,7 @@ public class SecondFragment extends Fragment {
             public void onResponse(Call<BusinessModel> call, Response<BusinessModel> responseTwo) {
 
                 BusinessModel sortingModel=responseTwo.body();
-                Log.d(TAG, "onResponse: " + sortingModel.toString());
+//                Log.d(TAG, "onResponse: " + sortingModel.toString());
 //                sortList= sortingModel.getBusinesses();
                 Log.d("SecondFragment",sortList.toString());
 
