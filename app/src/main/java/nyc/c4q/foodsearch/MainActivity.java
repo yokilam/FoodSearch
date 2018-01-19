@@ -157,17 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
         bottom.addItems(items);
 
-//        bottom.setDefaultBackgroundColor(Color.RED);
-//        bottom.setAccentColor(Color.RED);
+        bottom.setDefaultBackgroundColor(Color.LTGRAY);
+        bottom.setAccentColor(Color.parseColor("#52c7b8"));
 //        bottom.setInactiveColor(Color.LTGRAY);
 
 // Colors for selected (active) and non-selected items (in color reveal mode).
-        bottom.setColoredModeColors(Color.WHITE, Color.LTGRAY);
+//        bottom.setColoredModeColors(Color.WHITE, Color.LTGRAY);
 
         bottom.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-
                 switch (position) {
                     case 0:
                         FragmentManager manager2 = getSupportFragmentManager();
