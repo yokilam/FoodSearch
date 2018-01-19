@@ -1,10 +1,13 @@
 package nyc.c4q.foodsearch.fragments;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,18 +73,37 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(bussinessLag, bussinessLong))
-                .title("something")
-                .snippet("restaurant"));
+        if (bussinessLong != null && bussinessLag != null) {
 
-        CameraPosition restaurant = CameraPosition.builder()
-                .target(new LatLng(bussinessLag, bussinessLong))
-                .zoom(16)
-                .bearing(0)
-                .tilt(45)
-                .build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(restaurant));
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(bussinessLag, bussinessLong))
+                    .title(businessName)
+                    .snippet("restaurant"));
+
+            CameraPosition restaurant = CameraPosition.builder()
+                    .target(new LatLng(bussinessLag, bussinessLong))
+                    .zoom(16)
+                    .bearing(0)
+                    .tilt(45)
+                    .build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(restaurant));
+        } else {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                    (getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            googleMap.setMyLocationEnabled(true);
+            CameraPosition myLocation = CameraPosition.builder()
+                    .target(new LatLng(MainActivity.getCurrentLatitude(), MainActivity.getCurrentLongitude()))
+                    .zoom(16)
+                    .bearing(0)
+                    .tilt(45)
+                    .build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(myLocation));
+
+
+        }
     }
 
     public void getCoordinates() {
@@ -90,24 +112,26 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
             bussinessLong = bundle.getDouble("long");
             bussinessLag = bundle.getDouble("lag");
             businessName= bundle.getString("name");
-        } else {
-            bussinessLag= MainActivity.getCurrentLatitude();
-            bussinessLong= MainActivity.getCurrentLongitude();
-            Log.d(TAG, "getCoordinates: " + bussinessLag + " " + bussinessLong);
+            Log.d("geoLocate ", businessName + " " + bussinessLag + ", " + bussinessLong);
         }
+//        else {
+//            bussinessLag= MainActivity.getCurrentLatitude();
+//            bussinessLong= MainActivity.getCurrentLongitude();
+//            Log.d(TAG, "getCoordinates: " + bussinessLag + " " + bussinessLong);
+//        }
     }
 
     private void geoLocate(){
         Geocoder geocoder= new Geocoder(getActivity());
         List<Address> list= new ArrayList <>();
         try {
-            list = geocoder.getFromLocation(bussinessLag,bussinessLong, 1);
+            list = geocoder.getFromLocationName(businessName,1);
         }catch (IOException e) {
             Log.e(TAG, "geoLocate: " + e.getMessage());
         }
         if (list.size()>0) {
             Address address= list.get(0);
-            Log.d(TAG, "geoLocate: found a location" + address.toString());
+            Log.d("geoLocate" , address.toString());
         }
     }
 }
