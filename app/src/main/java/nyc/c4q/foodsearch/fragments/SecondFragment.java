@@ -1,24 +1,21 @@
 package nyc.c4q.foodsearch.fragments;
 
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -43,8 +40,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.content.ContentValues.TAG;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,7 +51,6 @@ public class SecondFragment extends Fragment {
     private RecyclerView rv;
     List <Business> businessList = new ArrayList <>();
     List<Business>  sortList= new ArrayList<>();
-    private EditText userinput;
     private double c4qLat= 40.7429595;
     private double c4qLong=-73.9415728;
 
@@ -64,11 +58,13 @@ public class SecondFragment extends Fragment {
     AHBottomNavigation bottom;
     LocationManager locationManager;
     private String rating="rating";
+    private SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        setHasOptionsMenu(true);
         v = inflater.inflate(R.layout.fragment_second, container, false);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -80,9 +76,7 @@ public class SecondFragment extends Fragment {
         adapter = new BusinessAdapter(businessList);
         rv.setAdapter(adapter);
         setupRetrofit(term);
-        userinput = v.findViewById(R.id.search_edit);
         setup();
-        search();
         return v;
 
     }
@@ -128,28 +122,11 @@ public class SecondFragment extends Fragment {
 //                Log.d(TAG, "onResponse: " + sortingModel.toString());
 //                sortList= sortingModel.getBusinesses();
                 Log.d("SecondFragment",sortList.toString());
-
             }
 
             @Override
             public void onFailure(Call<BusinessModel> call, Throwable t) {
 
-            }
-        });
-    }
-
-    public void search() {
-        userinput.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if ((keyCode == KeyEvent.KEYCODE_ENTER) && !TextUtils.isEmpty(userinput.getText().toString())) {
-                        hideSoftKeyboard();
-                        String searchText = userinput.getText().toString();
-                        setupRetrofit(searchText);
-                    }
-                }
-                return false;
             }
         });
     }
@@ -171,10 +148,39 @@ public class SecondFragment extends Fragment {
         });
     }
 
-    public void hideSoftKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(v.getContext().INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(userinput.getWindowToken(), 0);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.option, menu);
+
+        final MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("onQueryTextSubmit", query);
+                setupRetrofit(query);
+//                UserFeedback.show( "SearchOnQueryTextSubmit: " + query);
+                if( ! searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+                myActionMenuItem.collapseActionView();
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu,menuInflater);
+
+
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 }

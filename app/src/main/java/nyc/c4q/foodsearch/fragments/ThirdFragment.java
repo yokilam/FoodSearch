@@ -50,7 +50,7 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_third, container, false);
         getCoordinates();
-        geoLocate();
+//        geoLocate();
 
         return v;
     }

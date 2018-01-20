@@ -2,6 +2,9 @@
 <resources>
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00675b</color>
+    <color name="colorPrimary50">#e0f2f1</color>
+    <color name="colorPrimary100">#b2dfbd</color>
+    <color name="colorPrimary600">#00897B</color>
     <color name="colorAccent">#020202</color>
     <color name="primaryColor">#ff8a80</color>
     <color name="primaryLightColor">#ffbcaf</color>
@@ -12,6 +15,7 @@
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>>
     <color name="white">#fdfdfd</color>
+    <color name="gray">#FFC6C5C5</color>
 
 
 

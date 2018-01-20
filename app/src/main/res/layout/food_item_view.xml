@@ -25,31 +25,34 @@
         android:textStyle="bold"
         tools:text="name" />
 
-    <ImageView
-        android:id="@+id/rating_image"
-        android:layout_width="19dp"
-        android:layout_height="19dp"
-        android:layout_alignTop="@+id/name"
-        android:layout_toEndOf="@+id/name"
-        android:scaleType="centerCrop"
-        android:src="@drawable/star_black"
-        android:layout_marginStart="5dp"
-        android:tint="@color/colorAccent" />
+    <RatingBar
+        android:id="@+id/rating_bar"
+        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        android:theme="@style/RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/name"
+        android:layout_below="@+id/name"
+        android:isIndicator="true"
+        android:layout_marginTop="5dp"
+        android:numStars="5"
+        android:stepSize="0.1" />
 
     <TextView
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/rating_image"
-        android:layout_toEndOf="@+id/rating_image"
+        android:layout_alignBottom="@+id/rating_bar"
+        android:layout_toEndOf="@+id/rating_bar"
         tools:text="5.0" />
 
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/name"
-        android:layout_below="@+id/name"
+        android:layout_alignStart="@+id/rating_bar"
+        android:layout_below="@+id/rating_bar"
+        android:layout_marginTop="3dp"
         tools:text="category" />
 
 
@@ -64,15 +67,17 @@
 
     <com.sackcentury.shinebuttonlib.ShineButton
         android:id="@+id/po_image0"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/business_image"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/rating"
         android:elevation="10dp"
         app:btn_color="@android:color/darker_gray"
         app:btn_fill_color="#f26d7d"
         app:siShape="@raw/heart" />
 
 </RelativeLayout>
+
+
 
 
