@@ -2,6 +2,7 @@ package nyc.c4q.foodsearch.recycleview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +31,7 @@ import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.R;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by jervon.arnoldd on 1/13/18.
@@ -54,27 +58,25 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
                 .load(business.getImage_url())
                 .into(holder.imageView);
 
-        holder.address.setText(business.getLocation().getDisplay_address().get(0) +" , "+ business.getLocation().getDisplay_address().get(1));
+        holder.ratingBar.setRating((float) business.getRating());
+        holder.rating.setText(String.valueOf(business.getRating()));
+
+        holder.address.setText(business.getLocation().getDisplay_address().get(0) + " , " + business.getLocation().getDisplay_address().get(1));
         holder.address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle= new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putDouble("long", business.getCoordinates().getLongitude());
                 bundle.putDouble("lag", business.getCoordinates().getLatitude());
                 bundle.putString("name", business.getName());
                 Log.d(TAG, "onClick: " + business.getCoordinates().getLatitude() + " " + business.getCoordinates().getLongitude());
-                ThirdFragment mfrag= new ThirdFragment();
+                ThirdFragment mfrag = new ThirdFragment();
                 mfrag.setArguments(bundle);
-                FragmentManager manager2 = ((FragmentActivity)holder.context).getSupportFragmentManager();
+                FragmentManager manager2 = ((FragmentActivity) holder.context).getSupportFragmentManager();
                 FragmentTransaction transaction2 = manager2.beginTransaction();
                 transaction2.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
                 transaction2.replace(R.id.container, mfrag);
                 transaction2.commit();
-//                Uri myCord = Uri.parse("geo:" + business.getCoordinates().getLatitude() + "," + business.getCoordinates().getLongitude());
-//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, myCord);
-//                mapIntent.setPackage("com.google.android.apps.maps");
-//                holder.context.startActivity(mapIntent);
-
             }
         });
 
@@ -89,8 +91,13 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         });
         holder.businessName.setText(business.getName());
 
-        ShineButton shineButtonJava = new ShineButton(holder.context.getApplicationContext());
+        if (holder.log.contains(business.getId())) {
+            holder.shineButton.setChecked(true);
+        } else if (!holder.log.contains(business.getId())) {
+            holder.shineButton.setChecked(false);
+        }
 
+        ShineButton shineButtonJava = new ShineButton(holder.context.getApplicationContext());
         shineButtonJava.setBtnColor(Color.GRAY);
         shineButtonJava.setBtnFillColor(Color.RED);
         shineButtonJava.setShapeResource(R.raw.heart);
@@ -98,19 +105,20 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
         shineButtonJava.setShineSize(50);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
         shineButtonJava.setLayoutParams(layoutParams);
-//        if (linearLayout != null) {
-//            linearLayout.addView(shineButtonJava);
-//        }
 
-        holder. shineButton.setOnClickListener(new View.OnClickListener() {
+        holder.shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "click");
+                if (!holder.log.contains(business.getId())) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(business);
+                    holder.editor.putString(business.getId(), json);
+                    holder.editor.commit();
+                } else if (holder.log.contains(business.getId())) {
+                    holder.editor.remove(business.getId()).commit();
+                }
             }
         });
-
-
-
     }
 
     @Override
@@ -119,13 +127,15 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
     }
 
     public class Test_Holder extends RecyclerView.ViewHolder {
+        RatingBar ratingBar;
         ImageView imageView;
-        TextView businessName;
-        TextView phoneNum;
-        TextView address;
+        TextView businessName, phoneNum, address, rating;
         Context context;
         ShineButton shineButton;
 
+        private SharedPreferences log;
+        private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
+        private SharedPreferences.Editor editor;
 
         public Test_Holder(View itemView) {
             super(itemView);
@@ -135,6 +145,10 @@ public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test
             address = itemView.findViewById(R.id.address);
             context = itemView.getContext();
             shineButton = itemView.findViewById(R.id.po_image0);
+            log = itemView.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
+            editor = log.edit();
+            ratingBar = itemView.findViewById(R.id.rating_bar);
+            rating = itemView.findViewById(R.id.rating);
         }
     }
 }
