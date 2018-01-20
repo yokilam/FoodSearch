@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -28,11 +29,12 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
 
     private TextView name, address, rating, category;
     private ImageView businesslogo;
+    private RatingBar ratingBar;
     private SharedPreferences log;
     private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
     private SharedPreferences.Editor editor;
     Context context;
-    ShineButton shineButton;
+    private ShineButton shineButton;
 
 
     public BusinessViewHolder(View itemView) {
@@ -44,6 +46,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         rating = itemView.findViewById(R.id.rating);
         category = itemView.findViewById(R.id.category);
         businesslogo = itemView.findViewById(R.id.business_image);
+        ratingBar= itemView.findViewById(R.id.rating_bar);
 
         log = itemView.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         editor = log.edit();
@@ -54,6 +57,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
         address.setText(getAddress(business));
         rating.setText(String.valueOf(business.getRating()));
         category.setText(getCategories(business));
+        ratingBar.setRating((float) business.getRating());
 
         Picasso.with(itemView.getContext())
                 .load(business.getImage_url())

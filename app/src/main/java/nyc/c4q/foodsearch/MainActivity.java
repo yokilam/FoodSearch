@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -120,10 +121,15 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
-
-                            currentLatitude = currentLocation.getLatitude();
-                            currentLongitude = currentLocation.getLongitude();
-                            Log.d(TAG, "onComplete: " + new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+                            if (currentLocation == null) {
+                                Toast.makeText(MainActivity.this, "GPS is not on, please turn on GPS!", Toast.LENGTH_SHORT).show();
+                                currentLatitude= 40.743309;
+                                currentLongitude=-73.9415728;
+                            } else {
+                                currentLatitude = currentLocation.getLatitude();
+                                currentLongitude= currentLocation.getLongitude();
+                                Log.d(TAG, "onComplete: " + new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+                            }
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
                         }

@@ -2,21 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_search"
         android:enabled="true"
         android:icon="@drawable/search"
-        android:title="Test 1"
-        app:showAsAction="ifRoom" />
+        android:title="search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/action_schedules"
-        android:enabled="true"
-        android:icon="@drawable/ic_view_list"
-        android:title="Rating"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/action_sort_rating"
+        android:title="Rating" />
     <item
-        android:id="@+id/action_music"
-        android:enabled="true"
-        android:icon="@drawable/ic_map"
-        android:title="Distance"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/action_sort_distance"
+        android:title="Distance" />
 </menu>
