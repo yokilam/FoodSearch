@@ -69,7 +69,7 @@ public class FirstFragment extends Fragment {
     }
 
     public void setRecyclerView() {
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycle);
+        recyclerView = v.findViewById(R.id.recycle);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new SavedRecycleView(models);
@@ -80,17 +80,17 @@ public class FirstFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 float tran = bottom.getTranslationY() + dy;
-                Log.e("YOOO",bottom.getHeight()+"");
-                boolean scrooldown = dy > 0;
-                if (scrooldown) {
+                boolean scrollDown = dy > 0;
+                if (scrollDown) {
                     tran = Math.min(tran, bottom.getHeight());
                 } else {
                     tran = Math.max(tran, 0f);
                 }
-                if (models.isEmpty()){
-
-                }
                 bottom.setTranslationY(tran);
+                if (models.isEmpty()) {
+                    Toast.makeText(v.getContext(),"Favorite List is  Empty",Toast.LENGTH_LONG).show();
+                    bottom.restoreBottomNavigation();
+                }
             }
         });
     }
@@ -129,6 +129,20 @@ public class FirstFragment extends Fragment {
             if (!models.contains(obj)) {
                 models.add(obj);
             }
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        editor.clear();
+        editor.commit();
+        for (int i = 0; i < models.size(); i++) {
+            Gson gson = new Gson();
+            String json = gson.toJson(models.get(i));
+            editor.putString(models.get(i).getId(), json);
+            editor.commit();
         }
     }
 }

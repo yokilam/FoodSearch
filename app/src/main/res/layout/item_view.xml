@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/card_margin"
     android:background="?android:selectableItemBackground"
     android:elevation="8dp"
@@ -29,17 +30,35 @@
             android:text="@string/title_placeholder"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             android:elevation="3dp"/>
-
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@style/Base.Widget.AppCompat.RatingBar.Small"
+            android:theme="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:isIndicator="true"
+            android:layout_marginTop="5dp"
+            android:numStars="5"
+            android:stepSize="0.1" />
         <TextView
             android:id="@+id/phone_number"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/image"
+            android:layout_below="@id/rating_bar"
             android:padding="@dimen/card_margin"
             android:text="@string/label"
             android:textColor="?android:textColorSecondary"
             android:elevation="3dp"/>
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rating_bar"
+            android:layout_toEndOf="@+id/rating_bar"
+            tools:text="5.0" />
 
         <TextView
             android:id="@+id/address"

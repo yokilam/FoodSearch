@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "moveCamera: moving the camera to 1st: " + latLng.latitude + ", lng " + latLng.longitude);
 
     }
-
     public void setBottomNav() {
         bottom = findViewById(R.id.bottom_navigation);
         bottom.setCurrentItem(2);
@@ -166,10 +165,8 @@ public class MainActivity extends AppCompatActivity {
         bottom.setDefaultBackgroundColor(Color.LTGRAY);
         bottom.setAccentColor(Color.parseColor("#52c7b8"));
 //        bottom.setInactiveColor(Color.LTGRAY);
-
 // Colors for selected (active) and non-selected items (in color reveal mode).
 //        bottom.setColoredModeColors(Color.WHITE, Color.LTGRAY);
-
         bottom.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
