@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.foodsearch.MainActivity;
+import nyc.c4q.foodsearch.Network_Call;
 import nyc.c4q.foodsearch.mode.view.Business;
 import nyc.c4q.foodsearch.recycleview.BusinessAdapter;
 import nyc.c4q.foodsearch.mode.view.BusinessModel;
@@ -47,18 +48,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SecondFragment extends Fragment {
 
     private View v;
-    private String term= "burger";
+    private String term = "burger";
     private RecyclerView rv;
-    List <Business> businessList = new ArrayList <>();
-    List<Business>  sortList= new ArrayList<>();
-    private double c4qLat= 40.7429595;
-    private double c4qLong=-73.9415728;
+    List<Business> businessList = new ArrayList<>();
+    List<Business> sortList = new ArrayList<>();
+    private double c4qLat = 40.7429595;
+    private double c4qLong = -73.9415728;
 
     private BusinessAdapter adapter;
     AHBottomNavigation bottom;
     LocationManager locationManager;
-    private String rating="rating";
+    private String rating = "rating";
     private SearchView searchView;
+    Network_Call net;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,58 +79,12 @@ public class SecondFragment extends Fragment {
         rv.setAdapter(adapter);
         setupRetrofit(term);
         setup();
+        net = new Network_Call();
         return v;
-
     }
 
     public void setupRetrofit(String term) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.yelp.com/v3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        YelpService yelpService = retrofit.create(YelpService.class);
-        Call <BusinessModel> call = yelpService.getResults
-        ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude());
-        call.enqueue(new Callback <BusinessModel>() {
-            @Override
-            public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
-                try {
-                    if (response.isSuccessful()) {
-                        BusinessModel businessModel = response.body();
-                        businessList = businessModel.getBusinesses();
-                        adapter.swap(businessList);
-                        Log.d("onResponse: ", "" + businessList);
-                    } else
-                        Log.d("onResponse: ", response.errorBody().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call <BusinessModel> call, Throwable t) {
-                Log.d("onFailure: ", "" + t.getMessage());
-            }
-        });
-        Call<BusinessModel> sortCall=yelpService.getSortRating
-                ("Bearer "+Constant.API_KEY,term,c4qLong,c4qLat,rating);
-        sortCall.enqueue(new Callback<BusinessModel>() {
-            @Override
-            public void onResponse(Call<BusinessModel> call, Response<BusinessModel> responseTwo) {
-
-                BusinessModel sortingModel=responseTwo.body();
-//                Log.d(TAG, "onResponse: " + sortingModel.toString());
-//                sortList= sortingModel.getBusinesses();
-                Log.d("SecondFragment",sortList.toString());
-            }
-
-            @Override
-            public void onFailure(Call<BusinessModel> call, Throwable t) {
-
-            }
-        });
+        adapter.swap(net.Network_Call(term));
     }
 
     public void setup() {
@@ -152,7 +108,7 @@ public class SecondFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.option, menu);
 
-        final MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        final MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -160,7 +116,7 @@ public class SecondFragment extends Fragment {
                 Log.d("onQueryTextSubmit", query);
                 setupRetrofit(query);
 //                UserFeedback.show( "SearchOnQueryTextSubmit: " + query);
-                if( ! searchView.isIconified()) {
+                if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
                 myActionMenuItem.collapseActionView();
@@ -174,13 +130,22 @@ public class SecondFragment extends Fragment {
             }
         });
 
-        super.onCreateOptionsMenu(menu,menuInflater);
+        super.onCreateOptionsMenu(menu, menuInflater);
 
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_sort_rating:
+                adapter.swap(net.getSortedNetWork(term, "rating"));
+                break;
+            case R.id.action_sort_distance:
+                adapter.swap(net.getSortedNetWork(term, "distance"));
+                break;
+        }
+        return true;
     }
 }
