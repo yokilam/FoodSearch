@@ -4,6 +4,7 @@ package nyc.c4q.foodsearch.fragments;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +42,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.ContentValues.TAG;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,30 +64,30 @@ public class SecondFragment extends Fragment {
     private String rating = "rating";
     private SearchView searchView;
     Network_Call net;
+    Network_Call network_call;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        net = new Network_Call();
         setHasOptionsMenu(true);
         v = inflater.inflate(R.layout.fragment_second, container, false);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-
+        network_call = new Network_Call();
         bottom = getActivity().findViewById(R.id.bottom_navigation);
         rv = v.findViewById(R.id.food_rv);
         rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new BusinessAdapter(businessList);
+        adapter = new BusinessAdapter();
         rv.setAdapter(adapter);
         setupRetrofit(term);
         setup();
-        net = new Network_Call();
         return v;
     }
 
-    public void setupRetrofit(String term) {
-        adapter.swap(net.Network_Call(term));
+    public void setupRetrofit(final String term) {
+        network_call.Network_Call(term);
     }
 
     public void setup() {
@@ -107,7 +110,6 @@ public class SecondFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.option, menu);
-
         final MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -115,24 +117,19 @@ public class SecondFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 Log.d("onQueryTextSubmit", query);
                 setupRetrofit(query);
-//                UserFeedback.show( "SearchOnQueryTextSubmit: " + query);
+                term = query;
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
                 myActionMenuItem.collapseActionView();
                 return false;
             }
-
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
         });
-
         super.onCreateOptionsMenu(menu, menuInflater);
-
-
     }
 
     @Override
@@ -140,12 +137,74 @@ public class SecondFragment extends Fragment {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.action_sort_rating:
-                adapter.swap(net.getSortedNetWork(term, "rating"));
+                network_call.getSortedNetWork(term, "rating");
                 break;
             case R.id.action_sort_distance:
-                adapter.swap(net.getSortedNetWork(term, "distance"));
+                network_call.getSortedNetWork(term, "distance");
                 break;
         }
         return true;
+    }
+
+    class Network_Call {
+
+        private Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.yelp.com/v3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        private YelpService yelpService = retrofit.create(YelpService.class);
+
+
+        public Network_Call() {
+        }
+
+
+        public void Network_Call(String term) {
+            Call<BusinessModel> call = yelpService.getResults
+                    ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude());
+            call.enqueue(new Callback<BusinessModel>() {
+                @Override
+                public void onResponse(Call<BusinessModel> call, Response<BusinessModel> response) {
+                    try {
+                        if (response.isSuccessful()) {
+                            BusinessModel businessModel = response.body();
+                            businessList = businessModel.getBusinesses();
+                            Log.e("onResponse: ", "" + businessList);
+                            adapter.swap(businessList);
+                        } else {
+                            Log.e("onResponse: ", response.errorBody().string());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BusinessModel> call, Throwable t) {
+                    Log.d("onFailure: ", "" + t.getMessage());
+                }
+            });
+        }
+
+        public void getSortedNetWork(String term, String sort) {
+            final Call<BusinessModel> sortCall = yelpService.getSortRating
+                    ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude(), sort);
+            sortCall.enqueue(new Callback<BusinessModel>() {
+                @Override
+                public void onResponse(Call<BusinessModel> call, Response<BusinessModel> responseTwo) {
+                    BusinessModel sortingModel = responseTwo.body();
+                    Log.d(TAG, "onResponse: " + sortingModel.toString());
+                    sortList = sortingModel.getBusinesses();
+                    Log.d("Sort CAll worked", businessList.toString());
+                    adapter.swap(sortList);
+                }
+
+                @Override
+                public void onFailure(Call<BusinessModel> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
 }
