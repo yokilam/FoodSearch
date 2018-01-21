@@ -59,6 +59,7 @@ public class SecondFragment extends Fragment {
     AHBottomNavigation bottom;
     LocationManager locationManager;
     private String rating = "rating";
+    private String distance = "distance";
     private SearchView searchView;
     Network_Call net;
 
@@ -70,21 +71,77 @@ public class SecondFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_second, container, false);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-
         bottom = getActivity().findViewById(R.id.bottom_navigation);
         rv = v.findViewById(R.id.food_rv);
         rv.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         rv.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
+//        net = new Network_Call();
+        setupRetrofit(term);
         adapter = new BusinessAdapter(businessList);
         rv.setAdapter(adapter);
-        setupRetrofit(term);
         setup();
-        net = new Network_Call();
         return v;
     }
 
     public void setupRetrofit(String term) {
-        adapter.swap(net.Network_Call(term));
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.yelp.com/v3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        YelpService yelpService = retrofit.create(YelpService.class);
+
+        Call <BusinessModel> call = yelpService.getResults
+                ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude());
+        call.enqueue(new Callback <BusinessModel>() {
+            @Override
+            public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        BusinessModel businessModel = response.body();
+                        businessList = businessModel.getBusinesses();
+                        adapter.swap(businessList);
+                        Log.d("onResponse: ", "" + businessList);
+                    } else
+                        Log.d("onResponse: ", response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call <BusinessModel> call, Throwable t) {
+
+            }
+        });
+//        net.network_Call(term);
+    }
+
+    public void setupSorting(String term, String sort) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.yelp.com/v3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        YelpService yelpService = retrofit.create(YelpService.class);
+
+        Call <BusinessModel> call = yelpService.getSortRating
+                ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude(), sort);
+        call.enqueue(new Callback <BusinessModel>() {
+            @Override
+            public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
+                BusinessModel businessModel = response.body();
+                sortList = businessModel.getBusinesses();
+                adapter.swap(sortList);
+            }
+
+            @Override
+            public void onFailure(Call <BusinessModel> call, Throwable t) {
+
+            }
+        });
+
+//        net.network_Call(term);
     }
 
     public void setup() {
@@ -115,6 +172,7 @@ public class SecondFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 Log.d("onQueryTextSubmit", query);
                 setupRetrofit(query);
+                term = query;
 //                UserFeedback.show( "SearchOnQueryTextSubmit: " + query);
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
@@ -140,10 +198,11 @@ public class SecondFragment extends Fragment {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.action_sort_rating:
-                adapter.swap(net.getSortedNetWork(term, "rating"));
+                setupSorting(term, rating);
                 break;
             case R.id.action_sort_distance:
-                adapter.swap(net.getSortedNetWork(term, "distance"));
+                setupSorting(term, distance);
+//                adapter.swap(net.getSortedNetWork(term, "distance"));
                 break;
         }
         return true;

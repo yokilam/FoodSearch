@@ -39,8 +39,12 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
     }
 
     public void swap(List<Business> list){
-        businessList.clear();
-        businessList = list;
-        notifyDataSetChanged();
+//        if (businessList.isEmpty() || businessList==null) {
+//            businessList= list;
+//        } else {
+            businessList.clear();
+            businessList = list;
+            notifyDataSetChanged();
+//        }
     }
 }
