@@ -123,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
                             Location currentLocation = (Location) task.getResult();
                             if (currentLocation == null) {
                                 Toast.makeText(MainActivity.this, "GPS is not on, please turn on GPS!", Toast.LENGTH_SHORT).show();
-                                currentLatitude= 40.743309;
-                                currentLongitude=-73.9415728;
+                                currentLatitude = 40.743309;
+                                currentLongitude = -73.9415728;
                             } else {
                                 currentLatitude = currentLocation.getLatitude();
-                                currentLongitude= currentLocation.getLongitude();
+                                currentLongitude = currentLocation.getLongitude();
                                 Log.d(TAG, "onComplete: " + new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
                             }
                         } else {
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "moveCamera: moving the camera to 1st: " + latLng.latitude + ", lng " + latLng.longitude);
 
     }
+
     public void setBottomNav() {
         bottom = findViewById(R.id.bottom_navigation);
         bottom.setCurrentItem(2);
@@ -203,6 +204,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
