@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.foodsearch.mode.view.Business;
@@ -15,11 +16,16 @@ import nyc.c4q.foodsearch.R;
  */
 
 public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
-    List<Business> businessList;
+    List<Business> businessList = new ArrayList<>();
 
-    public BusinessAdapter(List <Business> businessList) {
+    public BusinessAdapter(List<Business> businessList) {
         this.businessList = businessList;
     }
+
+    public BusinessAdapter() {
+
+    }
+
 
     @Override
     public BusinessViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,7 +44,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
         return businessList.size();
     }
 
-    public void swap(List<Business> list){
+    public void swap(List<Business> list) {
         businessList.clear();
         businessList = list;
         notifyDataSetChanged();

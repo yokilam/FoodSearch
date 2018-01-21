@@ -31,12 +31,14 @@ public class Network_Call {
     private YelpService yelpService = retrofit.create(YelpService.class);
     private List<Business> businessList = new ArrayList<>();
     private List<Business> sortList = new ArrayList<>();
+    private boolean imDone = false;
+
 
     public Network_Call() {
     }
 
 
-   public List<Business>Network_Call(String term) {
+    public void Network_Call(String term) {
         Call<BusinessModel> call = yelpService.getResults
                 ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude());
         call.enqueue(new Callback<BusinessModel>() {
@@ -46,20 +48,20 @@ public class Network_Call {
                     if (response.isSuccessful()) {
                         BusinessModel businessModel = response.body();
                         businessList = businessModel.getBusinesses();
-                        Log.d("onResponse: ", "" + businessList);
-                    } else
-                        Log.d("onResponse: ", response.errorBody().string());
+                        Log.e("onResponse: ", "" + businessList);
+                        imDone=true;
+                    } else {
+                        Log.e("onResponse: ", response.errorBody().string());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Call<BusinessModel> call, Throwable t) {
                 Log.d("onFailure: ", "" + t.getMessage());
             }
         });
-        return businessList;
     }
 
     public List<Business> getSortedNetWork(String term, String sort) {
@@ -73,6 +75,7 @@ public class Network_Call {
                 sortList = sortingModel.getBusinesses();
                 Log.d("Sort CAll worked", businessList.toString());
             }
+
             @Override
             public void onFailure(Call<BusinessModel> call, Throwable t) {
 
@@ -80,6 +83,17 @@ public class Network_Call {
         });
         return sortList;
     }
+
+
+    public List<Business> getBusinessList() {
+        return businessList;
+    }
+
+    public boolean isImDone() {
+        return imDone;
+    }
 }
-//made some changeses
+
+
+
 
