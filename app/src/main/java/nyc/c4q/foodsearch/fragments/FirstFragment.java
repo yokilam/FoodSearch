@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -38,6 +39,7 @@ public class FirstFragment extends Fragment {
     SavedRecycleView adapter;
     AHBottomNavigation bottom;
     List<Business> models = new ArrayList<>();
+    RelativeLayout relativeLayout;
 
     float whenEmpty;
 
@@ -59,12 +61,16 @@ public class FirstFragment extends Fragment {
         bottom = getActivity().findViewById(R.id.bottom_navigation);
         log = v.getContext().getSharedPreferences(SHARED_PREF_KEY, MODE_PRIVATE);
         editor = log.edit();
-
+        relativeLayout = v.findViewById(R.id.relative);
         setRecyclerView();
         setupTouch();
         setupShared();
-        helper.attachToRecyclerView(recyclerView);
 
+        helper.attachToRecyclerView(recyclerView);
+        if (models.isEmpty()) {
+            relativeLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
         return v;
     }
 
@@ -88,7 +94,9 @@ public class FirstFragment extends Fragment {
                 }
                 bottom.setTranslationY(tran);
                 if (models.isEmpty()) {
-                    Toast.makeText(v.getContext(),"Favorite List is  Empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "Favorite List is  Empty", Toast.LENGTH_LONG).show();
+                    recyclerView.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                     bottom.restoreBottomNavigation();
                 }
             }
@@ -128,6 +136,10 @@ public class FirstFragment extends Fragment {
             Business obj = gson.fromJson(json, Business.class);
             if (!models.contains(obj)) {
                 models.add(obj);
+            }
+            if (models.isEmpty()) {
+                relativeLayout.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
             }
         }
     }
