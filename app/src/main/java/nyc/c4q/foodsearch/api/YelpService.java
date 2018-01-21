@@ -17,6 +17,7 @@ public interface YelpService {
             @Header("Authorization") String API_KEY,
             @Query("term") String term, @Query("longitude") double longitude,
             @Query("latitude") double latitude);
+
     @GET("businesses/search")
     Call<BusinessModel> getSortRating(
             @Header("Authorization") String API_KEY,
