@@ -25,10 +25,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import nyc.c4q.foodsearch.MainActivity;
+import nyc.c4q.foodsearch.R;
 import nyc.c4q.foodsearch.fragments.ThirdFragment;
 import nyc.c4q.foodsearch.mode.view.Business;
-import nyc.c4q.foodsearch.R;
 
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
@@ -39,7 +38,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SavedRecycleView extends RecyclerView.Adapter<SavedRecycleView.Test_Holder> {
     List<Business> businessList;
-
 
     public SavedRecycleView(List<Business> businessList) {
         this.businessList = businessList;

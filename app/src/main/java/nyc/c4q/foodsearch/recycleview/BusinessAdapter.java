@@ -26,7 +26,6 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
 
     }
 
-
     @Override
     public BusinessViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View child = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item_view, parent, false);
@@ -37,7 +36,6 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessViewHolder> {
     public void onBindViewHolder(BusinessViewHolder holder, int position) {
         holder.onBind(businessList.get(position));
     }
-
 
     @Override
     public int getItemCount() {

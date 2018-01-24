@@ -4,23 +4,18 @@ package nyc.c4q.foodsearch.fragments;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 
@@ -29,13 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nyc.c4q.foodsearch.MainActivity;
-import nyc.c4q.foodsearch.Network_Call;
-import nyc.c4q.foodsearch.mode.view.Business;
-import nyc.c4q.foodsearch.recycleview.BusinessAdapter;
-import nyc.c4q.foodsearch.mode.view.BusinessModel;
 import nyc.c4q.foodsearch.R;
 import nyc.c4q.foodsearch.api.YelpService;
 import nyc.c4q.foodsearch.constants.Constant;
+import nyc.c4q.foodsearch.mode.view.Business;
+import nyc.c4q.foodsearch.mode.view.BusinessModel;
+import nyc.c4q.foodsearch.recycleview.BusinessAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,18 +47,16 @@ public class SecondFragment extends Fragment {
     private View v;
     private String term = "burger";
     private RecyclerView rv;
-    List<Business> businessList = new ArrayList<>();
-    List<Business> sortList = new ArrayList<>();
-    private double c4qLat = 40.7429595;
-    private double c4qLong = -73.9415728;
+    private List <Business> businessList = new ArrayList <>();
+    private List <Business> sortList = new ArrayList <>();
 
     private BusinessAdapter adapter;
-    AHBottomNavigation bottom;
-    LocationManager locationManager;
+    private AHBottomNavigation bottom;
+    private LocationManager locationManager;
     private String rating = "rating";
     private SearchView searchView;
-    Network_Call net;
-    Network_Call network_call;
+    private Network_Call net;
+    private Network_Call network_call;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,6 +116,7 @@ public class SecondFragment extends Fragment {
                 myActionMenuItem.collapseActionView();
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -154,17 +147,15 @@ public class SecondFragment extends Fragment {
                 .build();
         private YelpService yelpService = retrofit.create(YelpService.class);
 
-
         public Network_Call() {
         }
 
-
         public void Network_Call(String term) {
-            Call<BusinessModel> call = yelpService.getResults
+            Call <BusinessModel> call = yelpService.getResults
                     ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude());
-            call.enqueue(new Callback<BusinessModel>() {
+            call.enqueue(new Callback <BusinessModel>() {
                 @Override
-                public void onResponse(Call<BusinessModel> call, Response<BusinessModel> response) {
+                public void onResponse(Call <BusinessModel> call, Response <BusinessModel> response) {
                     try {
                         if (response.isSuccessful()) {
                             BusinessModel businessModel = response.body();
@@ -180,18 +171,18 @@ public class SecondFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<BusinessModel> call, Throwable t) {
+                public void onFailure(Call <BusinessModel> call, Throwable t) {
                     Log.d("onFailure: ", "" + t.getMessage());
                 }
             });
         }
 
         public void getSortedNetWork(String term, String sort) {
-            final Call<BusinessModel> sortCall = yelpService.getSortRating
+            final Call <BusinessModel> sortCall = yelpService.getSortRating
                     ("Bearer " + Constant.API_KEY, term, MainActivity.getCurrentLongitude(), MainActivity.getCurrentLatitude(), sort);
-            sortCall.enqueue(new Callback<BusinessModel>() {
+            sortCall.enqueue(new Callback <BusinessModel>() {
                 @Override
-                public void onResponse(Call<BusinessModel> call, Response<BusinessModel> responseTwo) {
+                public void onResponse(Call <BusinessModel> call, Response <BusinessModel> responseTwo) {
                     BusinessModel sortingModel = responseTwo.body();
                     Log.d(TAG, "onResponse: " + sortingModel.toString());
                     sortList = sortingModel.getBusinesses();
@@ -200,7 +191,7 @@ public class SecondFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<BusinessModel> call, Throwable t) {
+                public void onFailure(Call <BusinessModel> call, Throwable t) {
 
                 }
             });

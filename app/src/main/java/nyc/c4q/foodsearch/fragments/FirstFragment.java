@@ -34,19 +34,18 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class FirstFragment extends Fragment {
 
-    View v;
-    RecyclerView recyclerView;
-    SavedRecycleView adapter;
-    AHBottomNavigation bottom;
-    List<Business> models = new ArrayList<>();
-    RelativeLayout relativeLayout;
+    private View v;
+    private RecyclerView recyclerView;
+    private SavedRecycleView adapter;
+    private AHBottomNavigation bottom;
+    private List <Business> models = new ArrayList <>();
+    private RelativeLayout relativeLayout;
 
-    float whenEmpty;
-
+    private float whenEmpty;
 
     private SharedPreferences log;
     private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
     ItemTouchHelper helper;
 
@@ -128,7 +127,7 @@ public class FirstFragment extends Fragment {
     }
 
     public void setupShared() {
-        Map<String, ?> keys = log.getAll();
+        Map <String, ?> keys = log.getAll();
         models.clear();
         for (String entry : keys.keySet()) {
             Gson gson = new Gson();
@@ -143,7 +142,6 @@ public class FirstFragment extends Fragment {
             }
         }
     }
-
 
     @Override
     public void onDestroy() {
