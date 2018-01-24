@@ -33,7 +33,7 @@ public class BusinessViewHolder extends RecyclerView.ViewHolder {
     private SharedPreferences log;
     private static final String SHARED_PREF_KEY = "MY_SAVED_LIST";
     private SharedPreferences.Editor editor;
-    Context context;
+    private Context context;
     private ShineButton shineButton;
 
 

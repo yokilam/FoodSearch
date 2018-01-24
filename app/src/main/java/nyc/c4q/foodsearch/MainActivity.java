@@ -149,9 +149,7 @@ public class MainActivity extends AppCompatActivity {
     public void setBottomNav() {
         bottom = findViewById(R.id.bottom_navigation);
         bottom.setCurrentItem(2);
-//        bottom.setTranslucentNavigationEnabled(false);
         bottom.setBehaviorTranslationEnabled(false);
-//        bottom.setColored(true);
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Map", R.drawable.ic_location_searching_black_24dp);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("List", R.drawable.headline);
@@ -165,9 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottom.setDefaultBackgroundColor(Color.LTGRAY);
         bottom.setAccentColor(Color.parseColor("#52c7b8"));
-//        bottom.setInactiveColor(Color.LTGRAY);
-// Colors for selected (active) and non-selected items (in color reveal mode).
-//        bottom.setColoredModeColors(Color.WHITE, Color.LTGRAY);
+
         bottom.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
