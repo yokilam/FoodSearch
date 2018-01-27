@@ -1,5 +1,5 @@
 # FoodSearch
 
-https://user-images.githubusercontent.com/32021081/35467835-e26d5028-02e1-11e8-9e50-f1ec4b3db297.png)
-![screenshot_2018-01-24-10-39-22](https://user-images.githubusercontent.com/32021081/35467836-e2876b70-02e1-11e8-9b39-14b87d8ff08c.png)
-![screenshot_2018-01-24-10-39-35](https://user-images.githubusercontent.com/32021081/35467837-e2930c8c-02e1-11e8-84a9-c479a7fe2976.png)
+![screenshot_2018-01-24-10-39-07](https://user-images.githubusercontent.com/32021081/35473277-ef3b44b2-034b-11e8-934a-236ce71647c7.png | width=100)
+![screenshot_2018-01-24-10-39-22](https://user-images.githubusercontent.com/32021081/35473278-ef46acc6-034b-11e8-829a-f0ce2f7fbc65.png | width=100)
+![screenshot_2018-01-24-10-39-35](https://user-images.githubusercontent.com/32021081/35473279-ef505b36-034b-11e8-9ec0-4f6ae7682855.png | width=100)
